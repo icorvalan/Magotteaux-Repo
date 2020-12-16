@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="18.11.1.1">
+<procedure name="main">
+<interface/>
+<body>
+<c></c>
+<c></c>
+<c></c>
+<l>dev_open_window (0, 0, 512, 512, 'gray', WindowHandle)</l>
+<c></c>
+<l>Get_Cores (Cores)</l>
+<l>Parametros_Visualizacion:=['colored','disp_pose','point_size']</l>
+<l>Valores_Visualizacion:= [  12  ,'true',1]</l>
+<l>Modelo:=Cores</l>
+<c></c>
+<l>dev_get_window (WindowHandle)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>for Index := 0 to |Modelo|-1 by 1</l>
+<c>    </c>
+<l>    Path:='C:/SFM_Cores/'+Modelo[Index]+'/'+Modelo[Index]+'_3D.stl'</l>
+<c>    </c>
+<c>    </c>
+<c>    ******************************************</c>
+<l>    Get_LecturaModelo (Path, ObjectModel3D, Status, CentroModelo, AltoTotal, AnchoTotal, LargoTotal)</l>
+<l>    Set_CentroModelo (ObjectModel3D)</l>
+<c>    *******************************************</c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    VerModelo3D:=false</l>
+<l>    if (VerModelo3D) </l>
+<l>        Ver_modelo3d (Path)</l>
+<l>    endif</l>
+<c></c>
+<l>    Set_CentroModelo (ObjectModel3D)</l>
+<c>    </c>
+<c>  </c>
+<l>    MakeSfm:=false</l>
+<c></c>
+<c></c>
+<c>    *********************************************************************</c>
+<l>    Sampling:=0.04</l>
+<l>    Get_TipoEntidad (Modelo[Index], Is_a_Core)</l>
+<c>    </c>
+<l>    if (not Is_a_Core)</l>
+<l>        Sampling:=0.95</l>
+<l>    endif</l>
+<l>    if (MakeSfm)       </l>
+<l>        pahtModel:=''</l>
+<c>        </c>
+<l>        Set_SFM (ObjectModel3D, pahtModel)</l>
+<l>    endif</l>
+<c>**********************************************************************</c>
+<c>    </c>
+<l>    clear_object_model_3d (ObjectModel3D)</l>
+<l>endfor</l>
+<c></c>
+<c></c>
+<l>throw ('Creación Finalizada')</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="Get_Cores">
+<interface>
+<oc>
+<par name="Cores" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>list_files ('C:/SFM_Cores', 'directories', Archivos)</l>
+<c></c>
+<l>Cores:=''</l>
+<l>for Index1 := 0 to |Archivos|-1 by 1</l>
+<c>  </c>
+<l>    tuple_split (Archivos[Index1], '\\', CoreAux)</l>
+<l>    largo_CoreAux:=|CoreAux|</l>
+<l>    Cores[Index1]:=CoreAux[largo_CoreAux-1]</l>
+<c>    </c>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="Get_Cores">
+<parameters>
+<parameter id="Cores"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Set_Pose">
+<interface>
+<ic>
+<par name="ObjectModel3D" base_type="ctrl" dimension="0"/>
+<par name="Parametros_Visualizacion" base_type="ctrl" dimension="0"/>
+<par name="Valores_Visualizacion" base_type="ctrl" dimension="0"/>
+<par name="Sampling" base_type="ctrl" dimension="0"/>
+<par name="Modelo" base_type="ctrl" dimension="0"/>
+<par name="Index" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>ObjectModel3DOut := ObjectModel3D</l>
+<l>     get_object_model_3d_params (ObjectModel3DOut, 'center', CentroModelo)</l>
+<c>    </c>
+<l>    create_pose (-CentroModelo[0], -CentroModelo[1], -CentroModelo[2], 0, 0, 0, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>    rigid_trans_object_model_3d (ObjectModel3DOut, Pose, ObjectModel3DOut)</l>
+<c>    </c>
+<c>    </c>
+<l>*    create_pose (0,0,0, 0, -90, 0, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>*    rigid_trans_object_model_3d (ObjectModel3DOut, Pose, ObjectModel3DOut)</l>
+<c>   </c>
+<l>*     create_pose (0,0,0, 0, 0, 20, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>*     rigid_trans_object_model_3d (ObjectModel3DOut, Pose, ObjectModel3DOut)</l>
+<c></c>
+<c></c>
+<l>*      create_pose (0,-2,0,         0, 0, 0, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>*      rigid_trans_object_model_3d (ObjectModel3DOut, Pose, ObjectModel3DOut)</l>
+<c></c>
+<l>      create_pose (0,0,80,         0, 0, 0, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>      rigid_trans_object_model_3d (ObjectModel3DOut, Pose, ObjectModel3DOut)</l>
+<c></c>
+<l>      visualize_object_model_3d (200000, [ObjectModel3DOut], [], [], [Parametros_Visualizacion,'alpha'],[ Valores_Visualizacion,0.5], [], [], [], PoseOut1)</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    create_surface_model (ObjectModel3DOut, Sampling, 'train_3d_edges', 'true', SurfaceModelID)</l>
+<l>    write_surface_model (SurfaceModelID, 'D:/AI/Vision Artificial/4.-MAGOTTEAUX/SFM_CORES/'+Modelo[Index]+'/'+Modelo[Index]+'_SFM')</l>
+<l>    write_object_model_3d (ObjectModel3DOut, 'stl', 'D:/AI/Vision Artificial/4.-MAGOTTEAUX/SFM_CORES/'+Modelo[Index]+'/'+Modelo[Index]+'_3D.stl', [], [])</l>
+<c>    </c>
+<l>return ()</l>
+</body>
+<docu id="Set_Pose">
+<parameters>
+<parameter id="Index"/>
+<parameter id="Modelo"/>
+<parameter id="ObjectModel3D"/>
+<parameter id="Parametros_Visualizacion"/>
+<parameter id="Sampling"/>
+<parameter id="Valores_Visualizacion"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Set_SFM">
+<interface>
+<ic>
+<par name="ObjectModel3D" base_type="ctrl" dimension="0"/>
+<par name="Path_model" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>ObjectModel3DOut := ObjectModel3D</l>
+<l>    param:=['train_3d_edges','model_invert_normals']</l>
+<l>    Valores:=['true','true']</l>
+<l>    surface_normals_object_model_3d (ObjectModel3DOut, 'mls', [], [], ObjectModel3DOut)</l>
+<l>    create_surface_model (ObjectModel3DOut, 0.9999999, param, Valores, SurfaceModelID)</l>
+<c>    </c>
+<c>    </c>
+<l>write_surface_model (SurfaceModelID, 'D:/AI/Vision Artificial/4.-MAGOTTEAUX/SFM_CORES/'+'_SFM')</l>
+<l>write_object_model_3d (ObjectModel3DOut, 'stl', 'D:/AI/Vision Artificial/4.-MAGOTTEAUX/SFM_CORES/'+'_3D.stl', [], [])</l>
+<c>    </c>
+<c>    </c>
+<l>   clear_surface_model (SurfaceModelID)</l>
+<l>return ()</l>
+</body>
+<docu id="Set_SFM">
+<parameters>
+<parameter id="ObjectModel3D"/>
+<parameter id="Path_model"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Get_TipoEntidad">
+<interface>
+<ic>
+<par name="Cod_Core_ToUse" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Entidad" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>tuple_strrstr (Cod_Core_ToUse, 'sleeve', Entidad)</l>
+<l>tuple_strrstr (Cod_Core_ToUse, 'SLEEVE', Entidad1)</l>
+<l>tuple_strrstr (Cod_Core_ToUse, 'PIN', Entidad2)</l>
+<l>tuple_strrstr (Cod_Core_ToUse, 'SPRUE', Entidad3)</l>
+<l>tuple_strrstr (Cod_Core_ToUse, 'LOC', Entidad4)</l>
+<c></c>
+<c></c>
+<l>if (Entidad=-1 and Entidad1=-1 and Entidad2=-1 and Entidad3=-1 and Entidad4=-1)</l>
+<l>    Entidad := true</l>
+<l>else</l>
+<l>    Entidad := false</l>
+<c></c>
+<l>endif</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Get_TipoEntidad">
+<parameters>
+<parameter id="Cod_Core_ToUse"/>
+<parameter id="Entidad"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Get_LecturaModelo">
+<interface>
+<ic>
+<par name="Path" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ObjectModel3D" base_type="ctrl" dimension="0"/>
+<par name="Status" base_type="ctrl" dimension="0"/>
+<par name="CentroModelo" base_type="ctrl" dimension="0"/>
+<par name="AltoTotal" base_type="ctrl" dimension="0"/>
+<par name="AnchoTotal" base_type="ctrl" dimension="0"/>
+<par name="LargoTotal" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>try</l>
+<c>    </c>
+<c>    </c>
+<l>    read_object_model_3d (Path, 1, [], [], ObjectModel3D, Status)</l>
+<l>    get_object_model_3d_params (ObjectModel3D, 'center', CentroModelo)</l>
+<l>    get_object_model_3d_params (ObjectModel3D, 'bounding_box1', XYZ)</l>
+<c>    </c>
+<l>    AltoTotal:=XYZ[2]-XYZ[5]</l>
+<l>    AnchoTotal:=XYZ[0]-XYZ[3]</l>
+<l>    LargoTotal:=XYZ[1]-XYZ[4]</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>catch (Exception)</l>
+<c>    </c>
+<l>endtry</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Get_LecturaModelo">
+<parameters>
+<parameter id="AltoTotal"/>
+<parameter id="AnchoTotal"/>
+<parameter id="CentroModelo"/>
+<parameter id="LargoTotal"/>
+<parameter id="ObjectModel3D"/>
+<parameter id="Path"/>
+<parameter id="Status"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Set_CentroModelo">
+<interface>
+<ic>
+<par name="ObjectModel3D" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>ObjectModel3DOut := ObjectModel3D</l>
+<l>    X:=0</l>
+<l>    Y:=0</l>
+<l>    Z:=0</l>
+<l>    C:=0</l>
+<l>    B:=0</l>
+<l>    A:=0</l>
+<c>    </c>
+<c>    </c>
+<l>    dev_get_window (WindowHandle)</l>
+<l>    create_pose (X, Y,Z,   C, B, A, 'Rp+T', 'gba', 'point', Pose)</l>
+<l>    rigid_trans_object_model_3d (ObjectModel3DOut, Pose, ObjectModel3DOut)</l>
+<c>    </c>
+<l>    Parametros_Visualizacion:=['colored','disp_pose','point_size','alpha']</l>
+<l>    Valores_Visualizacion:= [  12  ,'true',1,0.5]</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    visualize_object_model_3d (WindowHandle, [ObjectModel3DOut], [], [], Parametros_Visualizacion, Valores_Visualizacion,[], [], [], PoseOut1)</l>
+<c>    </c>
+<c>    </c>
+<c>  </c>
+<l>    write_object_model_3d (ObjectModel3DOut, 'stl', 'PATH AL MODELO 3D', [], [])</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>return ()</l>
+</body>
+<docu id="Set_CentroModelo">
+<parameters>
+<parameter id="ObjectModel3D"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Ver_modelo3d">
+<interface>
+<ic>
+<par name="Path" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>        </c>
+<c></c>
+<l>dev_get_window (WindowHandle)</l>
+<c></c>
+<l>Parametros_Visualizacion:=['colored','disp_pose','point_size']        </l>
+<l>Valores_Visualizacion:= [  12  ,'true',1]</l>
+<c></c>
+<c></c>
+<l>Get_LecturaModelo (Path, ObjectModel3D, Status, CentroModelo, AltoTotal, AnchoTotal, LargoTotal)</l>
+<c>  </c>
+<l>visualize_object_model_3d (WindowHandle, [ObjectModel3D], [], [], Parametros_Visualizacion, Valores_Visualizacion, [], [], [], PoseOut1)</l>
+<l>return ()</l>
+</body>
+<docu id="Ver_modelo3d">
+<parameters>
+<parameter id="Path"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

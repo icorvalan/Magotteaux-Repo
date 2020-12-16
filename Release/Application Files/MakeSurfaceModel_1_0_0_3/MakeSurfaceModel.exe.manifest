@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="MakeSurfaceModel.exe" version="1.0.0.2" publicKeyToken="0bf41c26af4ab8ca" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="terminatedstring_3d_6921.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="MakeSurfaceModel" version="1.0.7409.18881" language="neutral" processorArchitecture="msil" />
+    <commandLine file="MakeSurfaceModel.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          Opciones del manifiesto de Control de cuentas de usuario
+          Si quiere cambiar el nivel de Control de cuentas de usuario de Windows, reemplace el
+          nodo requestedExecutionLevel por alguno de los siguientes.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         Si desea usar la virtualización de archivos y del Registro para la
+         compatibilidad con versiones anteriores, elimine el nodo requestedExecutionLevel.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Bunifu_UI_v1.52.dll" size="225792">
+      <assemblyIdentity name="Bunifu_UI_v1.52" version="1.3.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>J8jOp+eTrOc3QViBpcFrTi2YzkZgnScugsbJBa0tnzY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="halcondotnet.dll" size="1461040">
+      <assemblyIdentity name="halcondotnet" version="18.11.1.1" publicKeyToken="4973BED59DDBF2B8" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>uaV8E36QTvRapk2EfjkiCLpPIMpQ02OvyEG6meapNZ8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MakeSurfaceModel.exe" size="269320">
+      <assemblyIdentity name="MakeSurfaceModel" version="1.0.7409.18881" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>PLlqTeghRy4+SLkqQJfM93wmFI6zOj3U+msqZEgBMwI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="MakeSurfaceModel.exe.config" size="163">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>l/VPfNqUVNQIPyQECM0xWlTJm+DXcPOne6oYsApBDIo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="terminatedstring_3d_6921.ico" size="67646">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>IBI5iw+VZwhs11mLTPL/9++IhfCRPNZ7mbKBaJCCbx4=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=DESKTOP-EFTMB4A\Vision MGTX" issuerKeyHash="a930f1035706a38173edd1757c11d9378c83f3b5" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>R5NGdH0x9K6x2maAHh2EwhfD5jJuGjDDvNJBZkH9D3w=</DigestValue></Reference></SignedInfo><SignatureValue>wHA1De5P57KDQMmkN8VmiGbmvSogR+Cx+XdHnRiCtYjbNy4jQJC48MBly77uHukNspwOXB39bhbUui+d3mLv3w40/UbYbQGNLkCrdKhbxoHAGA52VXOq9ATqb5LikvHFyRhYLCUJwdPl7+7ZbvfOq2IF3xS6SgW1o5zmTd0ec2E=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>1OXhAKrNMlWx32c17/SAx05ewmkaH4DZ0syvzd+Xf1TUgWZV1JdTBIVQH57EuKCWpVSmKelNPTHOO5+z37gi27pESgAbiHWKykh12la2hKL3YWDUEsk6lc2Xt3kcilo4suKCNpxRnJ6zpvNCTeuxCXdUITmJF8nh4IQ4eBfU+/E=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="7c0ffd416641d2bcc3301a6e32e6c317c2841d1e8066dab1aef4317d74469347" Description="" Url=""><as:assemblyIdentity name="MakeSurfaceModel.exe" version="1.0.0.2" publicKeyToken="0bf41c26af4ab8ca" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-EFTMB4A\Vision MGTX</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>+Ea7RYg/rLIBUhbdbszB7ZBzmGkm06fjGIDLvJrOC5g=</DigestValue></Reference></SignedInfo><SignatureValue>bZCZ+8sLi6CQsTBhM8ZOmYDznFUyQKuY9hICN8RyRREsCFLxLoMyQiCEQtfK/uUr42DK9CubBsZfbKioUuBqJcXqaFz576l6Gc2zRVwBOosJs0Z9cO/pDp8ZP7FmCbWZrixmnBUAmPvqW3/10sEki5234Qdus/t+8QBfmedfWFI=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>1OXhAKrNMlWx32c17/SAx05ewmkaH4DZ0syvzd+Xf1TUgWZV1JdTBIVQH57EuKCWpVSmKelNPTHOO5+z37gi27pESgAbiHWKykh12la2hKL3YWDUEsk6lc2Xt3kcilo4suKCNpxRnJ6zpvNCTeuxCXdUITmJF8nh4IQ4eBfU+/E=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIICBTCCAW6gAwIBAgIQUNhhQlNWK6pByynpjn07LzANBgkqhkiG9w0BAQsFADBBMT8wPQYDVQQDHjYARABFAFMASwBUAE8AUAAtAEUARgBUAE0AQgA0AEEAXABWAGkAcwBpAG8AbgAgAE0ARwBUAFgwHhcNMjAwMjA1MDA0NjAwWhcNMjEwMjA0MDY0NjAwWjBBMT8wPQYDVQQDHjYARABFAFMASwBUAE8AUAAtAEUARgBUAE0AQgA0AEEAXABWAGkAcwBpAG8AbgAgAE0ARwBUAFgwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBANTl4QCqzTJVsd9nNe/0gMdOXsJpGh+A2dLMr83fl39U1IFmVdSXUwSFUB+exLiglqVUpinpTT0xzjufs9+4Itu6REoAG4h1ispIddpWtoSi92Fg1BLJOpXNl7d5HIpaOLLigjacUZyes6bzQk3rsQl3VCE5iRfJ4eCEOHgX1PvxAgMBAAEwDQYJKoZIhvcNAQELBQADgYEAc6gj1+kqZZMgBkwAh0+SzkM2B54h6Mq3GGKXv0j0JeGg8/mUhnf9iloYbRysHJTabZQvN8MywJOK4/7ZXz47oE/JEyaCXyiihewH/hzKoXw5WVUbHpeYmtbh3RqIiHpesSCFHiV8Cw+CPHwRbjZTotV9P1bboNgFO/jBizYMcsE=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
