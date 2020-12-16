@@ -33,7 +33,7 @@
 <c>******************************************</c>
 <l> Send_Data_Info('##################################',SerialHandle)</l>
 <l> Send_Data_Info('### MIRS Vision System ',SerialHandle)</l>
-<l> Send_Data_Info('### Version 24.3.20  ',SerialHandle)</l>
+<l> Send_Data_Info('### Version 16.12.20  ',SerialHandle)</l>
 <l> Send_Data_Info('### AutoRoiV2 Pallet Hor and Vert  ',SerialHandle)</l>
 <l> Send_Data_Info('### Limite angular 7°  ',SerialHandle)</l>
 <l> Send_Data_Info('### SubDivicion Pallet  ',SerialHandle)</l>
@@ -21079,18 +21079,7 @@
 <c></c>
 <c></c>
 <l>try</l>
-<l>tuple_number (Segmento_To_Scan, Segmento_To_Scan_pal)</l>
-<c>    </c>
-<l>    get_object_model_3d_params (ObjectModel3D_Core_Pallet, 'bounding_box1', XYZ)</l>
-<c>    </c>
-<l>    AltoTotal:=XYZ[2]-XYZ[5]</l>
-<l>    AnchoTotal:=XYZ[0]-XYZ[3]</l>
-<l>    LargoTotal:=XYZ[1]-XYZ[4]</l>
-<c>    </c>
-<c>    </c>
-<l>    tuple_abs (AltoTotal, AltoTotal)</l>
-<l>    tuple_abs (AnchoTotal, AnchoTotal)</l>
-<l>    tuple_abs (LargoTotal, LargoTotal)</l>
+<l>    tuple_number (Segmento_To_Scan, Segmento_To_Scan_pal)</l>
 <c>    </c>
 <c>    </c>
 <c>    </c>
@@ -21112,7 +21101,7 @@
 <l>    if (AnchoTotal  &gt; LargoTotal )</l>
 <l>        WhichIsLonger:='Column'    </l>
 <l>    elseif(LargoTotal  &gt; AnchoTotal)</l>
-<l>         WhichIsLonger:='Row'   </l>
+<l>        WhichIsLonger:='Row'   </l>
 <l>    endif</l>
 <c>    </c>
 <l>    switch (Segmento_To_Scan_pal)</l>
@@ -21120,19 +21109,21 @@
 <l>    case 1:  </l>
 <c>        </c>
 <l>        Fila1:= 288</l>
-<l>        Columna1:=238</l>
+<l>        Columna1:=245</l>
 <c>        </c>
 <l>        Fila2:=789</l>
 <l>        Columna2:=755</l>
 <c>        </c>
+<l>          gen_rectangle1 (Rectangle1, Fila1, Columna1, Fila2, Columna2)</l>
 <c>        </c>
-<l>      if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2, Columna2+Valor_PixelToAdd)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
-<l>    endif</l>
+<l>          if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd*0.15, Fila2, Columna2+Valor_PixelToAdd)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd*0.15, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 287.5, 238.86, 789.26, 755.98)</l>
 <l>        break</l>
 <c>        </c>
@@ -21144,13 +21135,14 @@
 <l>        Fila2:=750</l>
 <l>        Columna2:=768</l>
 <c>        </c>
-<l>      if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2, Columna2+Valor_PixelToAdd)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
-<l>    endif</l>
+<l>        if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd*0.15, Fila2, Columna2+Valor_PixelToAdd)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd*0.15, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 259.34, 251.66, 750.86, 768.78)</l>
 <l>        break</l>
 <c>        </c>
@@ -21161,54 +21153,59 @@
 <l>        Fila2:=761</l>
 <l>        Columna2:=725</l>
 <c>        </c>
-<l>    if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd, Fila2, Columna2)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
-<l>    endif</l>
+<l>           if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd*0.15, Fila2, Columna2+Valor_PixelToAdd)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd*0.15, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 287.5, 215.82, 761.1, 738.06)</l>
 <c>        </c>
 <l>        break</l>
 <c>        </c>
 <l>    case 4:  </l>
 <c>        </c>
-<l>        Fila1:= 86</l>
-<l>        Columna1:=288</l>
+<l>        Fila1:= 5</l>
+<l>        Columna1:=295</l>
 <c>        </c>
 <l>        Fila2:=604</l>
 <l>        Columna2:=792</l>
-<c>                </c>
-<l>    if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2, Columna2+Valor_PixelToAdd)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
-<l>    endif</l>
-<c>        </c>
 <c>      </c>
+<l>                if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd*0.15, Fila2, Columna2+Valor_PixelToAdd)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd*0.15, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
+<c>        </c>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 85.26, 288.14, 604.94, 791.82)</l>
 <l>*         gen_rectangle1 (ROI_0, 85.26, 288.14, 730, 791.82)</l>
 <c>        </c>
 <l>        break   </l>
 <c>        </c>
 <l>    case 5:  </l>
-<l>        Fila1:= 93</l>
-<l>        Columna1:=252</l>
+<l>        Fila1:= 75</l>
+<l>        Columna1:=221</l>
 <c>        </c>
 <l>        Fila2:=625</l>
 <l>        Columna2:=766</l>
 <c>        </c>
-<l>       if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2, Columna2+Valor_PixelToAdd)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
-<l>    endif</l>
-<l>*         gen_rectangle1 (ROI_0, 92.94, 251.66, 625.42, 766.22)</l>
+<c>        </c>
+<l>        gen_rectangle1(Rectangle, Fila1, Columna1, Fila2, Columna2)</l>
+<c>        </c>
+<l>        if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd*0.15, Fila2, Columna2+Valor_PixelToAdd)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd*0.15, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>        break</l>
 <c>        </c>
 <c>        </c>
@@ -21220,13 +21217,14 @@
 <l>        Fila2:=622</l>
 <l>        Columna2:=730</l>
 <c>        </c>
-<l>       if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd, Fila2, Columna2)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
-<l>    endif</l>
+<l>        if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd*0.15, Fila2, Columna2+Valor_PixelToAdd)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd*0.15, Columna1, Fila2+Valor_PixelToAdd, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 118.54, 200.46, 622.86, 730.38)</l>
 <c>        </c>
 <l>        break       </l>
@@ -21239,13 +21237,14 @@
 <l>        Fila2:=425</l>
 <l>        Columna2:=789</l>
 <c>        </c>
-<l>       if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2, Columna2+Valor_PixelToAdd)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd, Columna1, Fila2, Columna2)</l>
-<l>    endif</l>
+<l>        if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd, Fila2, Columna2+Valor_PixelToAdd*0.1)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd, Columna1, Fila2+Valor_PixelToAdd*0.1, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 0.78, 295, 425.74, 789.26)</l>
 <l>        break</l>
 <c>        </c>
@@ -21254,16 +21253,18 @@
 <l>        Fila1:= 4</l>
 <l>        Columna1:=226</l>
 <c>        </c>
-<l>        Fila2:=456</l>
+<l>        Fila2:=445</l>
 <l>        Columna2:=789</l>
+<l>        gen_rectangle1 (Rectangle1, Fila1, Columna1, Fila2, Columna2)</l>
 <c>        </c>
-<l>       if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd, Fila2, Columna2)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd, Columna1, Fila2, Columna2)</l>
-<l>    endif</l>
+<l>        if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd, Fila2, Columna2+Valor_PixelToAdd*0.1)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd, Columna1, Fila2+Valor_PixelToAdd*0.1, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 3.34, 226.06, 456.46, 789.26)</l>
 <l>        break</l>
 <l>    case 9:</l>
@@ -21273,13 +21274,14 @@
 <l>        Fila2:=488</l>
 <l>        Columna2:=688</l>
 <c>        </c>
-<l>     if ( WhichIsLonger='Column'     )</l>
-<l>        NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1, Columna1, Fila2, Columna2+Valor_PixelToAdd)</l>
-<l>    elseif( WhichIsLonger='Row' )</l>
-<l>          NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
-<l>        gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd, Columna1, Fila2, Columna2)</l>
-<l>    endif</l>
+<l>        if ( WhichIsLonger='Column'     )</l>
+<l>            NeedMoreColumn (X, Fila1, Columna1, Fila2, Columna2, AnchoTotal, RIO_DIstancia, Valor_Pixel_mm, CuantoMasLargo_mm, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1, Columna1-Valor_PixelToAdd, Fila2, Columna2+Valor_PixelToAdd*0.1)</l>
+<l>        elseif( WhichIsLonger='Row' )</l>
+<l>            NeedMoreRow (Y, Fila1, Columna1, Fila2, Columna2, LargoTotal, Valor_PixelToAdd)</l>
+<l>            gen_rectangle1 (ROI_0, Fila1-Valor_PixelToAdd, Columna1, Fila2+Valor_PixelToAdd*0.1, Columna2)</l>
+<l>        endif</l>
+<c>        </c>
 <l>*         gen_rectangle1 (ROI_0, 0.78, 220.94, 487.18, 697.1)</l>
 <l>        break</l>
 <c>        </c>
@@ -22752,13 +22754,18 @@
 <l>RIO_DIstancia := Pto2-Pto1</l>
 <l>tuple_abs (RIO_DIstancia, RIO_DIstancia)</l>
 <c></c>
-<l>if (LargoTotal&gt;RIO_DIstancia and (Columna2-Columna1 != 0))</l>
+<c>*Porcentaje entre el largo del core y del ROI</c>
+<c>*Si es mayor a 95 se asuma que se debera tomar algo del segmento siguiente</c>
+<c></c>
+<l>Porct:=LargoTotal/RIO_DIstancia</l>
+<l>Umbral:=0.87</l>
+<l>if (LargoTotal&gt;RIO_DIstancia or Porct &gt;= Umbral and (Columna2-Columna1 != 0))</l>
 <c></c>
 <l>    Valor_Pixel_mm := (Columna2-Columna1)/RIO_DIstancia</l>
 <c></c>
 <l>    CuantoMasLargo_mm := LargoTotal-RIO_DIstancia</l>
-<c></c>
-<l>    Valor_PixelToAdd := Valor_Pixel_mm*CuantoMasLargo_mm+150</l>
+<l>    tuple_abs (CuantoMasLargo_mm, CuantoMasLargo_mm)</l>
+<l>    Valor_PixelToAdd := Valor_Pixel_mm*CuantoMasLargo_mm+LargoTotal*0.5</l>
 <l>else</l>
 <l>    Valor_PixelToAdd := 0</l>
 <c></c>
