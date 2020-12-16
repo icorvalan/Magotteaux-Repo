@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="13.0.2.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>Conectar_Ensenso_N35_R2 (24005, NxLib, Camera_3, Conexion_Camara)</l>
+<c></c>
+<l>* #########################################################################</l>
+<c>* Configuracion de Parametros</c>
+<l>MinimumDisparity_Cam1:=-19</l>
+<l>NumberOfDisparities_Cam1:= 32</l>
+<l>Projector:='false'</l>
+<l>FrontLigth:='true'</l>
+<l>AutoExposure:='true'</l>
+<l>AutoGain:='true'</l>
+<l>Exposure := 1.8</l>
+<l>Gain:=5.5</l>
+<l>FlexView:=1</l>
+<l>Config_Parametros_Cam_R1 (NxLib, Camera_3, NumberOfDisparities_Cam1, MinimumDisparity_Cam1, Projector, FrontLigth, AutoExposure, AutoGain, Gain, Exposure, FlexView, TempCam)</l>
+<c></c>
+<l>* ########                                                                            ######## Capturo la Imagen ########################################</l>
+<l>get_framegrabber_param (NxLib, 'Cameras/BySerialNo/182681/Calibration/Monocular/Left/Distortion/K1', K1)</l>
+<l>get_framegrabber_param (NxLib, 'Cameras/BySerialNo/182681/Calibration/Monocular/Left/Distortion/K2', K2)</l>
+<l>get_framegrabber_param (NxLib, 'Cameras/BySerialNo/182681/Calibration/Monocular/Left/Distortion/K3', K3)</l>
+<l>get_framegrabber_param (NxLib, 'Cameras/BySerialNo/182681/Calibration/Monocular/Left/Distortion/T1', T1)</l>
+<l>get_framegrabber_param (NxLib, 'Cameras/BySerialNo/182681/Calibration/Monocular/Left/Distortion/T2', T2)</l>
+<c></c>
+<l>gen_cam_par_area_scan_polynomial (12.3/1000.0, K1, K2, K3, T1, T2, 5.3e-006, 5.3e-006, 1280.2/2.0, 1024.0/2.0, 1280, 1024,\
+                                  StartCamParam)</l>
+<l>write_cam_par (StartCamParam, 'C:/Users/Vision MGTX/Dropbox/1.-Servidor Desarrollo Software/7.-Magotteaux/7.-HandEye/3.Ensenso R2/CamParamRect')</l>
+<c></c>
+<c></c>
+<l>while (true)</l>
+<l>Exposure := 1.8</l>
+<l>Gain:=5.5</l>
+<l>FlexView:=1</l>
+<l>Config_Parametros_Cam_R1 (NxLib, Camera_3, NumberOfDisparities_Cam1, MinimumDisparity_Cam1, Projector, FrontLigth, AutoExposure, AutoGain, Gain, Exposure, FlexView, TempCam)</l>
+<c></c>
+<l>    Get_Img_Camera_R2 (ModelImage, Xm, Ym, Zm, ImgLeftCamera_1, NxLib, Camera_3, Escena3D_RAW)</l>
+<l>    select_obj (ModelImage, ObjectSelected, 1)</l>
+<l>    dev_display (ObjectSelected)</l>
+<c>        </c>
+<l>endwhile</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>Close_Camera_2 (Camera_3, NxLib)</l>
+<c></c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="Adq_Imagen">
+<interface>
+<oo>
+<par name="ModelImage" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="NxLib" base_type="ctrl" dimension="0"/>
+<par name="Camera" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>set_framegrabber_param (NxLib, 'do_execute', 'Capture')</l>
+<l>set_framegrabber_param (NxLib, 'do_execute', 'ComputeDisparityMap')</l>
+<l>set_framegrabber_param (NxLib, 'do_execute', 'ComputePointMap')</l>
+<c>* </c>
+<l>* set_framegrabber_param (Camera, 'grab_data_items', ['Images/Rectified/Left','Images/Rectified/Right','Images/PointMap'])</l>
+<c>* </c>
+<l>grab_data (ModelImage, Regions, Contours, Camera, Data)</l>
+<l>return ()</l>
+</body>
+<docu id="Adq_Imagen">
+<parameters>
+<parameter id="Camera"/>
+<parameter id="ModelImage"/>
+<parameter id="NxLib"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Conectar_Ensenso_N35_R2">
+<interface>
+<ic>
+<par name="Puerto" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="NxLib" base_type="ctrl" dimension="0"/>
+<par name="Camera_1" base_type="ctrl" dimension="0"/>
+<par name="Conexion_Camara" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<l>Conexion_Camara_1 := false</l>
+<l>try</l>
+<c>    * </c>
+<l>*     info_framegrabber ('Ensenso-NxLib', 'device', Information, ValueList)</l>
+<l>*     info_framegrabber ('Ensenso-NxLib', 'info_boards', Information, Estado)</l>
+<c>    * </c>
+<c>    * Inicializacion de Arbol y camara estereo</c>
+<l>    open_framegrabber ('Ensenso-NxLib', 0, 0, 0, 0, 0, 0, 'default', 0, 'Raw', 'auto_grab_data=0', 'false', 'Item', '/', 0, 0, NxLib)</l>
+<l>    open_framegrabber ('Ensenso-NxLib', 0, 0, 0, 0, 0, 0, 'default', 0, 'Raw', 'auto_grab_data=0', 'false', 'Stereo', '182681', 0, 0, Camera_1)</l>
+<c>    * </c>
+<l>*     open_framegrabber ('Ensenso-NxLib', 0, 0, 0, 0, 0, 0, 'default', -1, 'default', -1, 'default', 'stereo', '193216', 0, 0, Camera_1)</l>
+<c>    * </c>
+<c>    * </c>
+<c>    * Abro puerto TCP del Arbol</c>
+<l>    set_framegrabber_param (NxLib, 'do_open_tcp_port', Puerto)</l>
+<l>    Conexion_Camara_1 := true</l>
+<c>    * </c>
+<l>    return ()</l>
+<l>catch (Exception)</l>
+<l>    Conexion_Camara_1 := false</l>
+<l>endtry</l>
+<l>return ()</l>
+</body>
+<docu id="Conectar_Ensenso_N35_R2">
+<parameters>
+<parameter id="Camera_1"/>
+<parameter id="Conexion_Camara"/>
+<parameter id="NxLib"/>
+<parameter id="Puerto"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Adq_XYZ_Img">
+<interface>
+<io>
+<par name="ModelImage" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="Xm" base_type="iconic" dimension="0"/>
+<par name="Ym" base_type="iconic" dimension="0"/>
+<par name="Zm" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>select_obj (ModelImage, XYZMAP, 3)</l>
+<c>* </c>
+<c>* Separate the X, Y and Z images</c>
+<l>access_channel (XYZMAP, Xm, 1)</l>
+<l>access_channel (XYZMAP, Ym, 2)</l>
+<l>access_channel (XYZMAP, Zm, 3)</l>
+<l>return ()</l>
+</body>
+<docu id="Adq_XYZ_Img">
+<parameters>
+<parameter id="ModelImage"/>
+<parameter id="Xm"/>
+<parameter id="Ym"/>
+<parameter id="Zm"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Config_Parametros_Cam_R1">
+<interface>
+<ic>
+<par name="NxLib" base_type="ctrl" dimension="0"/>
+<par name="Camera" base_type="ctrl" dimension="0"/>
+<par name="NumberOfDisparities" base_type="ctrl" dimension="0"/>
+<par name="MinimumDisparity" base_type="ctrl" dimension="0"/>
+<par name="Projector" base_type="ctrl" dimension="0"/>
+<par name="FrontLigth" base_type="ctrl" dimension="0"/>
+<par name="AutoExposure" base_type="ctrl" dimension="0"/>
+<par name="AutoGain" base_type="ctrl" dimension="0"/>
+<par name="Gain" base_type="ctrl" dimension="0"/>
+<par name="Exposure" base_type="ctrl" dimension="0"/>
+<par name="FlexView" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="TempCam" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* </c>
+<c>* Configuracion de parametros.</c>
+<l>set_framegrabber_param (Camera, 'grab_data_items', ['Images/Raw/Left', 'Images/Raw/Right','Images/PointMap'])</l>
+<c>* </c>
+<c>* </c>
+<c>* Parametros para habilitar funciones directas de la camara</c>
+<l>set_framegrabber_param (NxLib, 'Execute/Parameters/InitialTrigger', 'All')</l>
+<c>* Proyector random de texturas</c>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/Capture/Projector', Projector)</l>
+<c>* Iluminacion</c>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/Capture/FrontLight', FrontLigth)</l>
+<c>* </c>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/Capture/AutoExposure', AutoExposure)</l>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/Capture/AutoGain', AutoGain)</l>
+<c>* </c>
+<c>* </c>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/Capture/Exposure', Exposure)</l>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/Capture/Gain', Gain)</l>
+<c>* </c>
+<c>* ******************************************************************************************************</c>
+<c>* </c>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/DisparityMap/StereoMatching/NumberOfDisparities', NumberOfDisparities)</l>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/DisparityMap/StereoMatching/MinimumDisparity', MinimumDisparity)</l>
+<c>* N° de imagenes de captura</c>
+<l>set_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Parameters/Capture/FlexView', FlexView)</l>
+<c>* Temperatura de camara</c>
+<l>get_framegrabber_param (NxLib, '//Cameras/BySerialNo/182681/Sensor/Temperature', TempCam)</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="Config_Parametros_Cam_R1">
+<parameters>
+<parameter id="AutoExposure"/>
+<parameter id="AutoGain"/>
+<parameter id="Camera"/>
+<parameter id="Exposure"/>
+<parameter id="FlexView"/>
+<parameter id="FrontLigth"/>
+<parameter id="Gain"/>
+<parameter id="MinimumDisparity"/>
+<parameter id="NumberOfDisparities"/>
+<parameter id="NxLib"/>
+<parameter id="Projector"/>
+<parameter id="TempCam"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Get_Img_Camera_R2">
+<interface>
+<oo>
+<par name="ModelImage" base_type="iconic" dimension="0"/>
+<par name="Xm" base_type="iconic" dimension="0"/>
+<par name="Ym" base_type="iconic" dimension="0"/>
+<par name="Zm" base_type="iconic" dimension="0"/>
+<par name="ImgLeftCamera" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="NxLib_1" base_type="ctrl" dimension="0"/>
+<par name="Camera_1" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Escena3D_RAW" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Adq_Imagen (ModelImage, NxLib_1, Camera_1)</l>
+<l>Adq_XYZ_Img (ModelImage, Xm, Ym, Zm)</l>
+<c>* </c>
+<c>* **********************************************************************</c>
+<c>* ***** Guardo las Imagenes ********************************************</c>
+<l>get_system_time (MSecond, Second, Minute, Hour, Day, YDay, Month, Year)</l>
+<l>write_object (ModelImage, 'D:/AI/Vision Artificial/4.-MAGOTTEAUX/20-Imagenes Produccion/R2/Pattern/ModelImage'+Month+Day+Hour+Second)</l>
+<c>* **********************************************************************</c>
+<c>* </c>
+<l>select_obj (ModelImage, ImgLeftCamera, 1)</l>
+<l>xyz_to_object_model_3d (Xm, Ym, Zm, Escena3D_RAW)</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="Get_Img_Camera_R2">
+<parameters>
+<parameter id="Camera_1"/>
+<parameter id="Escena3D_RAW"/>
+<parameter id="ImgLeftCamera"/>
+<parameter id="ModelImage"/>
+<parameter id="NxLib_1"/>
+<parameter id="Xm"/>
+<parameter id="Ym"/>
+<parameter id="Zm"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Close_Camera_2">
+<interface>
+<ic>
+<par name="Camera_1" base_type="ctrl" dimension="0"/>
+<par name="NxLib_1" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>close_framegrabber (Camera_1)</l>
+<l>close_framegrabber (NxLib_1)</l>
+<c>* </c>
+<l>return ()</l>
+</body>
+<docu id="Close_Camera_2">
+<parameters>
+<parameter id="Camera_1"/>
+<parameter id="NxLib_1"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
