@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="18.11.1.1">
+<procedure name="main">
+<interface/>
+<body>
+<c></c>
+<c>***********************************************</c>
+<c>* Lectura de modelo SFM y 3D</c>
+<c>***********************************************</c>
+<l>read_object_model_3d ('C:/CoreRaro/EICT.sfm.stl', 1, [], [], ObjectModel3D3, Status)</l>
+<l>read_surface_model ('C:/CoreRaro/EICT.sfm', SurfaceModelID)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>list_files ('C:/IMagenes', 'files', Archivos)</l>
+<c></c>
+<c></c>
+<l>for Index := 1 to |Archivos| by 1</l>
+<c>    </c>
+<c></c>
+<c></c>
+<l>read_object (ModelImage, Archivos[Index])</l>
+<c></c>
+<l>gen_rectangle1 (ROI_0, 109.505, 250.88, 628.296, 750.923)</l>
+<l>Adq_XYZ_Img (ModelImage, X, Y, Z)</l>
+<c></c>
+<l>reduce_domain (Z, ROI_0, Z)</l>
+<c>*******************************************************</c>
+<c>* Segmento el core de manera dinamica******************</c>
+<l>* median_image (Z, Z, 'circle', 3, 'mirrored') </l>
+<c></c>
+<c>*Rango de deteccion  desde la camara </c>
+<l>RangoLow:=1030</l>
+<l>RangoHigh:=1710.0</l>
+<l>threshold (Z, Regions, RangoLow, RangoHigh)</l>
+<l>reduce_domain (Z, Regions, Z)</l>
+<c></c>
+<c></c>
+<c>** Filtro el piso</c>
+<l>DitsiObjMax:=1706</l>
+<l>Segmentar_Core (Z, X, Y, Z, Entidad, DitsiObjMax, Estado_Funcion)</l>
+<l>Histagram_Filter (Z, X, Y, Z, Entidad, Estado_Funcion1)</l>
+<c></c>
+<l>median_image (Z, Z, 'circle', 2, 'mirrored')</l>
+<c>*******************************************************</c>
+<l>dilation_circle (Entidad, EntidadDilatada, 30.5)</l>
+<l>reduce_domain (Z, EntidadDilatada, Z)</l>
+<c></c>
+<l>* select_obj(ModelImage, ImgLeftCamera, 1)</l>
+<l>dev_display (EntidadDilatada)</l>
+<c></c>
+<l>reduce_domain (X, EntidadDilatada, X)</l>
+<l>reduce_domain (Y, EntidadDilatada, Y)</l>
+<c></c>
+<l>Parametros_Visualizacion := ['disp_pose','color_attrib','lut','disp_lines','point_size']</l>
+<l>Valores_Visualizacion := ['true','coord_z','rainbow','false',1]</l>
+<c></c>
+<c></c>
+<c></c>
+<l>xyz_to_object_model_3d (X, Y, Z, Escena3D_RAW)</l>
+<l>Debug_View:=1</l>
+<c></c>
+<l>surface_normals_object_model_3d (Escena3D_RAW, 'mls', [], [], ObjectModel3DNormals)</l>
+<c></c>
+<c></c>
+<l>dev_get_window (WindowHandle)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>NumNeighbors:=105</l>
+<l>get_object_model_3d_params (Escena3D_RAW, 'neighbor_distance ' + NumNeighbors, DistanceDistribution)</l>
+<l>get_object_model_3d_params (Escena3D_RAW, 'num_points', NumPoints)</l>
+<c></c>
+<l>InlierRate := 70</l>
+<l>Distance := sort(DistanceDistribution)[|DistanceDistribution| * InlierRate / 100]</l>
+<c></c>
+<c></c>
+<l>select_points_object_model_3d (Escena3D_RAW, 'num_neighbors ' + Distance, 15, NumPoints, Escena3D_RAW)</l>
+<c></c>
+<l>Visualizar_3D ([Escena3D_RAW ], [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,0.5], Debug_View, [], [], [], WindowHandle, PoseOut1)</l>
+<c></c>
+<c></c>
+<l>BordesMain:=50</l>
+<l>edges_object_model_3d (Escena3D_RAW, BordesMain, [], [], Modelo_3D_ROI_ThresEdges)</l>
+<l>Visualizar_3D ( [Modelo_3D_ROI_ThresEdges], [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,1], 1, [], [], [], WindowHandle, PoseOut1)</l>
+<c></c>
+<c></c>
+<l>Ang_Obj:=0</l>
+<l>Get_Vector_Estados (Vector_Estado_Fx)</l>
+<c></c>
+<l>Find_Dinamic_Core (1, SurfaceModelID, ObjectModel3D3, Escena3D_RAW, Vector_Estado_Fx, [], Modelo_3D_ROI_ThresEdges, WindowHandle, Parametros_Visualizacion, \
+Valores_Visualizacion, Ang_Obj, [], PoseMLS, Score_Refinado, Posicion3D_Objeto_REFIN, Obj_Detectado)</l>
+<l>* ###################################################################</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="Find_Dinamic_Core">
+<interface>
+<ic>
+<par name="N_Model_To_Find" base_type="ctrl" dimension="0"/>
+<par name="SFM_Core_Pallet" base_type="ctrl" dimension="0"/>
+<par name="ObjectModel3D_Core_Pallet" base_type="ctrl" dimension="0"/>
+<par name="Escena3D_RAW" base_type="ctrl" dimension="0"/>
+<par name="Vector_Estado_Fx" base_type="ctrl" dimension="2"/>
+<par name="SerialHandle" base_type="ctrl" dimension="0"/>
+<par name="Modelo_3D_ROI_ThresEdges" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="Parametros_Visualizacion" base_type="ctrl" dimension="0"/>
+<par name="Valores_Visualizacion" base_type="ctrl" dimension="0"/>
+<par name="Ang_Obj" base_type="ctrl" dimension="0"/>
+<par name="Vector_ID_Core_by_Segment_Pallet" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="MyPose" base_type="ctrl" dimension="0"/>
+<par name="Score_Refinado" base_type="ctrl" dimension="0"/>
+<par name="Posicion3D_Objeto_REFIN" base_type="ctrl" dimension="0"/>
+<par name="Obj_Detectado" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Angulos := []</l>
+<l>Puntaje := []</l>
+<c></c>
+<l>IdexAng := 0</l>
+<l>Poses_Finded := { {[]}}</l>
+<c>* ***********************************************</c>
+<c>* Delta Angular -&gt; +- 20°</c>
+<c>* ***********************************************</c>
+<l>DeltaAngular := 10</l>
+<c></c>
+<l>matchinToFind := 10.0/10.0</l>
+<c></c>
+<c>* ***********************************************************</c>
+<c>* Por receta se debera agregar el % de deteccion  de cada Core</c>
+<c>* ***********************************************************</c>
+<c></c>
+<c></c>
+<l>* Get_PorcentajeBusqueda (Vector_ID_Core_by_Segment_Pallet, SerialHandle, Porcentaje)</l>
+<l>Porcentaje := 0.2</l>
+<c>* *-&gt; solo para pruebas     Porcentaje:=0.001</c>
+<l>if (Porcentaje=[])</l>
+<c></c>
+<l>    Obj_Detectado := 0</l>
+<l>* # ### Envio data de estado ########################</l>
+<l>    Estado := 22</l>
+<l>    Send_Data_Info ('### ERROR ###. No existe Porcentaje de deteccion en tabla, para core -&gt; '+ Vector_ID_Core_by_Segment_Pallet, SerialHandle)</l>
+<l>    return ()</l>
+<l>* # ################################################# </l>
+<c></c>
+<c></c>
+<c></c>
+<l>endif</l>
+<c></c>
+<c></c>
+<l>MinScore := Porcentaje</l>
+<c></c>
+<c></c>
+<c>* ************************************************************</c>
+<c>* Modificacion de Puntaje por tipo de Core</c>
+<c>* ****************+********************************************</c>
+<l>* Get_Core_To_Use_Main ()</l>
+<c>* *************************************************************</c>
+<c>*   AGREGAR PARA CORES RAROS</c>
+<c>* ***************************************************************</c>
+<l>* Get_Core_ToUse_From_BDD_Fast ()</l>
+<c></c>
+<l>for KeyPointDin := 0.1 to matchinToFind by 0.1</l>
+<c></c>
+<c></c>
+<c>    * ***************************</c>
+<c>    * Parametros de control</c>
+<c>    * ***************************</c>
+<l>    DinamicSampling := 0.0095</l>
+<l>    Sampling_Find := (1.0 -KeyPointDin)*DinamicSampling + 0.05</l>
+<l>    Keypoint := KeyPointDin</l>
+<c></c>
+<l>    N_matches := N_Model_To_Find</l>
+<l>    SFM := SFM_Core_Pallet</l>
+<l>    Mod_3D_Objeto := ObjectModel3D_Core_Pallet</l>
+<l>    Escena3D := Escena3D_RAW</l>
+<c>    * ***************************</c>
+<c>    * Si lo que busco es una Manga, Busco el objeto por Bordes</c>
+<c>    * ***************************</c>
+<l>*     Visualizar_3D ([ObjectModel3D_Core_Pallet,Modelo_3D_ROI_ThresEdges,Escena3D_RAW], [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,0.5], 1, [], [], [], WindowHandle, PoseOut1)</l>
+<c>    * ***************************</c>
+<c></c>
+<l>    Find_Dinamic_Entity_3D (N_matches, SFM, Escena3D, Sampling_Find, Keypoint, MinScore, Mod_3D_Objeto, Modelo_3D_ROI_ThresEdges, MyPose, ScoreMLS, Obj_Detectado)</l>
+<c></c>
+<l>    if (Obj_Detectado)</l>
+<l>        dev_clear_window ()</l>
+<l>        dev_get_window (WindowHandle)</l>
+<l>        Angulos[IdexAng] := MyPose[5]</l>
+<l>        Poses_Finded.at(IdexAng).at(0) := MyPose</l>
+<l>        Angulos[IdexAng] := MyPose[5]</l>
+<l>        Puntaje[IdexAng] := ScoreMLS</l>
+<l>        IdexAng := IdexAng+1</l>
+<c></c>
+<c></c>
+<l>        rigid_trans_object_model_3d (Mod_3D_Objeto, MyPose, Posicion3D_Objeto_REFIN)</l>
+<c></c>
+<c></c>
+<l>        Parametros_Visualizacion := ['disp_pose','color_attrib','lut','point_size']</l>
+<l>        Valores_Visualizacion := ['true','coord_z','rainbow',1]</l>
+<l>        create_pose (150, -90, 1590, 352, 0, 0, 'Rp+T', 'gba', 'point', PoseView)</l>
+<l>        disp_object_model_3d (WindowHandle, [Posicion3D_Objeto_REFIN,Escena3D_RAW], [], PoseView, [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,0.5])</l>
+<l>        dev_disp_text ('Puntaje - &gt; ' +ScoreMLS, 'window', 'top', 'left', 'black', [], [])</l>
+<l>*         dev_disp_text (MyPose, 'window', 20, 400, 'black', [], [])</l>
+<c></c>
+<c></c>
+<l>*         Visualizar_3D ([Posicion3D_Objeto_REFIN,Escena3D_RAW], [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,0.5], 1, [], [], [], WindowHandle, PoseOut1)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>    endif</l>
+<l>* # ###############################</l>
+<c></c>
+<c></c>
+<l>endfor</l>
+<c></c>
+<c></c>
+<l>if (|Angulos|&gt;0)</l>
+<c></c>
+<c></c>
+<c>    * Convierto a angulos negativos</c>
+<c>    * Sobre el limite convierto a Neg</c>
+<c>    * **********************************</c>
+<l>    LimiteAngular := 200</l>
+<c>    * **********************************</c>
+<l>    for Index := 0 to |Angulos|-1 by 1</l>
+<l>        if (Angulos[Index]&gt;LimiteAngular)</l>
+<l>            Angulos[Index] := Angulos[Index]-360</l>
+<l>        endif</l>
+<l>    endfor</l>
+<c></c>
+<l>    Dist_Angular := []</l>
+<l>    for Index := 0 to |Angulos|-1 by 1</l>
+<l>        Dist_Angular[Index] := Ang_Obj-Angulos[Index]</l>
+<l>    endfor</l>
+<c></c>
+<l>    tuple_abs (Dist_Angular, Dist_Angular_abs)</l>
+<c></c>
+<l>    AuxMenor := Dist_Angular_abs[0]</l>
+<l>    flag := 0</l>
+<l>    for Index := 0 to |Dist_Angular_abs|-1 by 1</l>
+<l>        if (AuxMenor&gt;Dist_Angular_abs[Index])</l>
+<l>            AuxMenor := Dist_Angular_abs[Index]</l>
+<l>            flag := Index</l>
+<l>        endif</l>
+<l>    endfor</l>
+<c></c>
+<c></c>
+<l>*     Visualizar_3D ([Posicion3D_Objeto_REFIN,Escena3D_RAW], [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,0.5], 1, [], [], [], WindowHandle, PoseOut1)</l>
+<c></c>
+<c></c>
+<c>    * ********************</c>
+<c>    * MAX PUNTAJE</c>
+<c>    * ********************</c>
+<l>    tuple_max (Puntaje, MaxPuntaje)</l>
+<c></c>
+<l>    for Index1 := 0 to |Puntaje|-1 by 1</l>
+<c></c>
+<l>        if (MaxPuntaje=Puntaje[Index1])</l>
+<l>            flag := Index1</l>
+<l>        endif</l>
+<c></c>
+<l>    endfor</l>
+<c></c>
+<l>    if (AuxMenor&lt;=DeltaAngular)</l>
+<c></c>
+<l>        Obj_Detectado := 1</l>
+<l>        MyPose := Poses_Finded.at(flag).at(0)</l>
+<c></c>
+<c></c>
+<l>*         if (CoresRaros)</l>
+<l>*             MyPose[3] := 0</l>
+<l>*             MyPose[4] := 0</l>
+<l>*         endif</l>
+<c></c>
+<c></c>
+<l>        Score_Refinado := Puntaje[flag]</l>
+<c></c>
+<l>        create_pose (150, -90, 1590, 352, 0, 0, 'Rp+T', 'gba', 'point', PoseView)</l>
+<l>        disp_object_model_3d (WindowHandle, [Posicion3D_Objeto_REFIN,Escena3D_RAW], [], PoseView, [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,0.5])</l>
+<l>        dev_disp_text ('Puntaje - &gt; ' +Score_Refinado, 'window', 'top', 'left', 'black', [], [])</l>
+<c></c>
+<c></c>
+<l>        Visualizar_3D ([Posicion3D_Objeto_REFIN,Escena3D_RAW], [Parametros_Visualizacion,'alpha'], [Valores_Visualizacion,0.5], 1, [], [], [], WindowHandle, PoseOut1)</l>
+<c></c>
+<l>        dev_disp_text (MyPose, 'window', 'top', 'left', 'black', [], [])</l>
+<l>        return ()</l>
+<l>    else</l>
+<l>        Obj_Detectado := 0</l>
+<l>* # ### Envio data de estado ########################</l>
+<l>        Estado := 22</l>
+<l>        Send_Data_Estado (Vector_Estado_Fx, Estado, SerialHandle)</l>
+<l>* # ################################################# </l>
+<c></c>
+<c></c>
+<l>    endif</l>
+<l>else</l>
+<c></c>
+<l>    Obj_Detectado := 0</l>
+<l>* # ### Envio data de estado ########################</l>
+<l>    Estado := 22</l>
+<l>    Send_Data_Estado (Vector_Estado_Fx, Estado, SerialHandle)</l>
+<l>* # ################################################# </l>
+<c></c>
+<l>endif</l>
+<c></c>
+<l>* # ###################################################################### </l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Find_Dinamic_Core">
+<parameters>
+<parameter id="Ang_Obj"/>
+<parameter id="Escena3D_RAW"/>
+<parameter id="Modelo_3D_ROI_ThresEdges"/>
+<parameter id="MyPose"/>
+<parameter id="N_Model_To_Find"/>
+<parameter id="Obj_Detectado"/>
+<parameter id="ObjectModel3D_Core_Pallet"/>
+<parameter id="Parametros_Visualizacion"/>
+<parameter id="Posicion3D_Objeto_REFIN"/>
+<parameter id="SFM_Core_Pallet"/>
+<parameter id="Score_Refinado"/>
+<parameter id="SerialHandle"/>
+<parameter id="Valores_Visualizacion"/>
+<parameter id="Vector_Estado_Fx"/>
+<parameter id="Vector_ID_Core_by_Segment_Pallet"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Find_Dinamic_Entity_3D">
+<interface>
+<ic>
+<par name="N_matches" base_type="ctrl" dimension="0"/>
+<par name="SFM" base_type="ctrl" dimension="0"/>
+<par name="Modelo_imagen_3d" base_type="ctrl" dimension="0"/>
+<par name="Sampling_Find" base_type="ctrl" dimension="0"/>
+<par name="Keypoint" base_type="ctrl" dimension="0"/>
+<par name="MinScore" base_type="ctrl" dimension="0"/>
+<par name="Perno_Ref_Cam0" base_type="ctrl" dimension="0"/>
+<par name="Modelo_3D_ROI_ThresEdges" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="PoseMLS" base_type="ctrl" dimension="0"/>
+<par name="ScoreMLS" base_type="ctrl" dimension="0"/>
+<par name="Estado_Funcion" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+<l>Estado_Funcion := true</l>
+<l>try</l>
+<c>    * * --&gt; descomentar EN c#  Fx_Aux.DataLogError = "Buscando Objeto";</c>
+<c></c>
+<c>    * ***************************************</c>
+<c>    * 1.Parametros de control</c>
+<c>    * ***************************************</c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>    GenParamName := ['num_matches','scene_normal_computation','pose_ref_scoring_dist_rel','score_type'          ,'3d_edges'              , '3d_edge_min_amplitude_abs','max_gap','viewpoint']</l>
+<l>    GenParamValue := [N_matches   ,          'mls'           ,   0.01                    ,'model_point_fraction', Modelo_3D_ROI_ThresEdges, 13.7313                   ,  30     , '0 0 0']</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>*     GenParamName := ['num_matches','scene_normal_computation','pose_ref_scoring_dist_rel','score_type'          ]</l>
+<l>*     GenParamValue := [N_matches   ,          'mls'           ,   0.01                    ,'model_point_fraction']</l>
+<c></c>
+<c>    * ***************************************</c>
+<c>    * 2.Busqueda de entidad</c>
+<c>    * ***************************************</c>
+<l>    find_surface_model (SFM, Modelo_imagen_3d, Sampling_Find, Keypoint, MinScore, 'true', GenParamName, GenParamValue, PoseMLS, ScoreMLS, SurfaceMatchingResultID1)</l>
+<c>    * ***************************************</c>
+<l>    if (|PoseMLS|)</l>
+<c>        * * --&gt; descomentar EN c#  Fx_Aux.DataLogError = "Objeto encontrado con una PROBABILIDAD de " + hv_ScoreMLS*100.ToString() ;</c>
+<l>        Estado_Funcion := true</l>
+<l>        return ()</l>
+<c></c>
+<l>    endif</l>
+<c></c>
+<l>    Estado_Funcion := false</l>
+<l>catch (Exception)</l>
+<c></c>
+<l>    Estado_Funcion := false</l>
+<c>    * * --&gt; descomentar EN c#  Fx_Aux.DataLogError = Fx_Aux.ErrorCatch(HDevExpDefaultException1);</c>
+<c></c>
+<l>endtry</l>
+<c></c>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Find_Dinamic_Entity_3D">
+<parameters>
+<parameter id="Estado_Funcion"/>
+<parameter id="Keypoint"/>
+<parameter id="MinScore"/>
+<parameter id="Modelo_3D_ROI_ThresEdges"/>
+<parameter id="Modelo_imagen_3d"/>
+<parameter id="N_matches"/>
+<parameter id="Perno_Ref_Cam0"/>
+<parameter id="PoseMLS"/>
+<parameter id="SFM"/>
+<parameter id="Sampling_Find"/>
+<parameter id="ScoreMLS"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Send_Data_Estado">
+<interface>
+<ic>
+<par name="Vector_Estado_Fx" base_type="ctrl" dimension="2"/>
+<par name="Estado" base_type="ctrl" dimension="0"/>
+<par name="SerialHandle" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>* # #### Envio de estado  #######################</l>
+<l>* wait_seconds (0.1)</l>
+<l>Valor_Variable := Vector_Estado_Fx.at(Estado).at(0)</l>
+<l>Tag_Destino := '_EV01_I_Estado'</l>
+<c></c>
+<l>Peticion := 'HalconEstado'</l>
+<l>Variable_OPC := Tag_Destino</l>
+<l>Variable := Vector_Estado_Fx.at(Estado).at(1)</l>
+<l>Data := Peticion+';'+Variable_OPC+';'+Variable</l>
+<c></c>
+<l>write_serial (SerialHandle, ords(Data))</l>
+<c></c>
+<l>Conteo_Espera := 0</l>
+<l>VarSerial := 0</l>
+<l>while (VarSerial&lt;1 and Conteo_Espera&lt;10)</l>
+<l>    read_serial (SerialHandle, 20, Nchar)</l>
+<l>    Nchar := chrt(Nchar)</l>
+<l>    tuple_number (Nchar, Variable)</l>
+<l>    VarSerial := |Nchar|</l>
+<l>    Conteo_Espera := Conteo_Espera+1</l>
+<l>endwhile</l>
+<c></c>
+<l>* # ### Fin envio de estado ######################  </l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Send_Data_Estado">
+<parameters>
+<parameter id="Estado"/>
+<parameter id="SerialHandle"/>
+<parameter id="Vector_Estado_Fx"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Segmentar_Core">
+<interface>
+<io>
+<par name="HeightMap" base_type="iconic" dimension="0"/>
+<par name="X" base_type="iconic" dimension="0"/>
+<par name="Y" base_type="iconic" dimension="0"/>
+<par name="Z" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="Entidad" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="DitsiObjMax" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Estado_Funcion" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Estado_Funcion := false</l>
+<c></c>
+<l>try</l>
+<c></c>
+<c>    * ********************************************************</c>
+<c>    * 1.-  !!!!!!!!! threshols dinamico!!!!!!!!!!!!!!!!!!!!!!!!!!</c>
+<c>    * ********************************************************</c>
+<c></c>
+<l>    UmbralMaxThr := DitsiObjMax</l>
+<l>    threshold (HeightMap, Region, 900, UmbralMaxThr)</l>
+<l>    escala := 255.0/UmbralMaxThr</l>
+<l>    scale_image (HeightMap, HeightMap_Scalada, escala, 0)</l>
+<l>    threshold (HeightMap_Scalada, HeightMap_Region, 0, 255)</l>
+<l>    gray_histo_range (HeightMap_Region, HeightMap_Scalada, 0, 255, 256, Histo, BinSize)</l>
+<l>    tuple_sum (Histo, Sum_Histo)</l>
+<c></c>
+<l>* # #########################################################</l>
+<l>* # ### Mientras mas grabnde menos sensible a cambios #######   </l>
+<l>    Mascara := 1</l>
+<l>* # ########################################################</l>
+<c></c>
+<l>    Vector_Distribucion := []</l>
+<l>    init_vector := 255</l>
+<l>    flag_vector := 0</l>
+<l>    aux_suma := 0.0</l>
+<c></c>
+<l>    for Index := init_vector to 0 by -1</l>
+<c></c>
+<l>        Vector_Distribucion[Index] := aux_suma+Histo[Index]*100.0/ Sum_Histo</l>
+<l>        aux_suma := Vector_Distribucion[Index]</l>
+<l>    endfor</l>
+<c></c>
+<l>    Derivada := []</l>
+<l>    Factor_Der := 1000</l>
+<l>    Mascara := 1</l>
+<l>    for Index := init_vector to 50 by -Mascara</l>
+<c></c>
+<l>        Derivada[Index] := abs(Vector_Distribucion[Index]-Vector_Distribucion[Index-Mascara])*Factor_Der</l>
+<c></c>
+<l>    endfor</l>
+<c></c>
+<c></c>
+<c>    * *********************************************************</c>
+<c>    * * Busco el primer cambio brusco de posicion *************</c>
+<c>    * * El umbral de cambio es Aux_Val_Max ********************</c>
+<c>    * *********************************************************</c>
+<l>    create_funct_1d_array (Derivada, Function)</l>
+<c></c>
+<c>    * *  dev_inspect_ctrl (Function)</c>
+<c>    * ***********************************************************************************************</c>
+<l>    Aux_Val_Max := 30000</l>
+<c>    * ****************************************************************************************************</c>
+<l>    Flag_indx_max := 255</l>
+<l>    for Index := init_vector to 50 by -Mascara</l>
+<c></c>
+<l>        if (Derivada[Index]&gt;Aux_Val_Max)</l>
+<l>            Aux_Val_Max := Derivada[Index]</l>
+<l>            Flag_indx_max := Index</l>
+<l>        endif</l>
+<c></c>
+<l>    endfor</l>
+<c></c>
+<l>* # #########################################################</l>
+<l>* # ######## Grado de proteccion para moverse entre el </l>
+<l>* # ####### histograma</l>
+<l>    index_protection := 3</l>
+<l>* # #########################################################</l>
+<c></c>
+<l>    Alt_Min := 110</l>
+<l>    Alt_Max := Flag_indx_max+index_protection</l>
+<l>    threshold (HeightMap_Scalada, Entidad, Alt_Min, Alt_Max)</l>
+<c></c>
+<l>    Estado_Funcion := true</l>
+<l>catch (Exception)</l>
+<l>    Estado_Funcion := false</l>
+<c>    * * --&gt; descomentar EN c#  Fx_Aux.DataLogError = Fx_Aux.ErrorCatch(HDevExpDefaultException1);</c>
+<c></c>
+<l>endtry</l>
+<c></c>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Segmentar_Core">
+<parameters>
+<parameter id="DitsiObjMax"/>
+<parameter id="Entidad"/>
+<parameter id="Estado_Funcion"/>
+<parameter id="HeightMap"/>
+<parameter id="X"/>
+<parameter id="Y"/>
+<parameter id="Z"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Adq_XYZ_Img">
+<interface>
+<io>
+<par name="ModelImage" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="Xm" base_type="iconic" dimension="0"/>
+<par name="Ym" base_type="iconic" dimension="0"/>
+<par name="Zm" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>select_obj (ModelImage, XYZMAP, 3)</l>
+<c></c>
+<c>* Separate the X, Y and Z images</c>
+<l>access_channel (XYZMAP, Xm, 1)</l>
+<l>access_channel (XYZMAP, Ym, 2)</l>
+<l>access_channel (XYZMAP, Zm, 3)</l>
+<l>return ()</l>
+</body>
+<docu id="Adq_XYZ_Img">
+<parameters>
+<parameter id="ModelImage"/>
+<parameter id="Xm"/>
+<parameter id="Ym"/>
+<parameter id="Zm"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Histagram_Filter">
+<interface>
+<io>
+<par name="HeightMap" base_type="iconic" dimension="0"/>
+<par name="X" base_type="iconic" dimension="0"/>
+<par name="Y" base_type="iconic" dimension="0"/>
+<par name="Z" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="Entidad" base_type="iconic" dimension="0"/>
+</oo>
+<oc>
+<par name="Estado_Funcion" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Estado_Funcion := false</l>
+<c></c>
+<l>try</l>
+<c></c>
+<c>    * ********************************************************</c>
+<c>    * 1.-  !!!!!!!!! threshols dinamico!!!!!!!!!!!!!!!!!!!!!!!!!!</c>
+<c>    * ********************************************************</c>
+<c></c>
+<l>    UmbralMaxThr := 2800.0</l>
+<l>    threshold (HeightMap, Region, 900, UmbralMaxThr)</l>
+<l>    escala := 255.0/UmbralMaxThr</l>
+<l>    scale_image (HeightMap, HeightMap_Scalada, escala, 0)</l>
+<l>    threshold (HeightMap_Scalada, HeightMap_Region, 0, 255)</l>
+<l>    gray_histo_range (HeightMap_Region, HeightMap_Scalada, 0, 255, 256, Histo, BinSize)</l>
+<l>    tuple_sum (Histo, Sum_Histo)</l>
+<c></c>
+<l>* # #########################################################</l>
+<l>* # ### Mientras mas grabnde menos sensible a cambios #######   </l>
+<l>    Mascara := 1</l>
+<l>* # ########################################################</l>
+<c></c>
+<l>    Vector_Distribucion := []</l>
+<l>    init_vector := 255</l>
+<l>    flag_vector := 0</l>
+<l>    aux_suma := 0.0</l>
+<c></c>
+<l>    for Index := init_vector to 0 by -1</l>
+<c></c>
+<l>        Vector_Distribucion[Index] := aux_suma+Histo[Index]*100.0/ Sum_Histo</l>
+<l>        aux_suma := Vector_Distribucion[Index]</l>
+<l>    endfor</l>
+<c></c>
+<l>    Derivada := []</l>
+<l>    Factor_Der := 1000</l>
+<l>    Mascara := 1</l>
+<l>    for Index := init_vector to 50 by -Mascara</l>
+<c></c>
+<l>        Derivada[Index] := abs(Vector_Distribucion[Index]-Vector_Distribucion[Index-Mascara])*Factor_Der</l>
+<c></c>
+<l>    endfor</l>
+<c></c>
+<c></c>
+<c>    * *********************************************************</c>
+<c>    * * Busco el primer cambio brusco de posicion *************</c>
+<c>    * * El umbral de cambio es Aux_Val_Max ********************</c>
+<c>    * *********************************************************</c>
+<l>    create_funct_1d_array (Derivada, Function)</l>
+<c></c>
+<l>*     dev_inspect_ctrl (Function)</l>
+<c>    * ***********************************************************************************************</c>
+<l>    Aux_Val_Max := 2000</l>
+<c>    * ****************************************************************************************************</c>
+<l>    Flag_indx_max := 255</l>
+<l>    for Index := 50 to 255 by Mascara</l>
+<c>        * Busca el primer conjunto de elementos y sale</c>
+<l>        if (Derivada[Index]&gt;Aux_Val_Max)</l>
+<l>            Aux_Val_Max := Derivada[Index]</l>
+<l>            Flag_indx_max := Index</l>
+<l>            break</l>
+<l>        endif</l>
+<c></c>
+<l>    endfor</l>
+<c></c>
+<l>* # #########################################################</l>
+<l>* # ######## Grado de proteccion para moverse entre el </l>
+<l>* # ####### histograma</l>
+<l>    index_protection := 2</l>
+<l>* # #########################################################</l>
+<c></c>
+<l>    Alt_Min := Flag_indx_max-index_protection</l>
+<l>    Alt_Max := Flag_indx_max+index_protection</l>
+<l>    threshold (HeightMap_Scalada, Entidad, Alt_Min, Alt_Max)</l>
+<c></c>
+<l>    Estado_Funcion := true</l>
+<l>catch (Exception)</l>
+<l>    Estado_Funcion := false</l>
+<c>    * * --&gt; descomentar EN c#  Fx_Aux.DataLogError = Fx_Aux.ErrorCatch(HDevExpDefaultException1);</c>
+<c></c>
+<l>endtry</l>
+<c></c>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Histagram_Filter">
+<parameters>
+<parameter id="Entidad"/>
+<parameter id="Estado_Funcion"/>
+<parameter id="HeightMap"/>
+<parameter id="X"/>
+<parameter id="Y"/>
+<parameter id="Z"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Send_Data_Info">
+<interface>
+<ic>
+<par name="Mensaje" base_type="ctrl" dimension="0"/>
+<par name="SerialHandle" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>* # #### Envio de estado  #######################</l>
+<l>try</l>
+<c></c>
+<l>    Valor_Variable := Mensaje</l>
+<l>    Tag_Destino := '_EV01_I_Estado'</l>
+<c></c>
+<l>    Peticion := 'HalconEstado'</l>
+<l>    Variable_OPC := Tag_Destino</l>
+<l>    Variable := Mensaje</l>
+<l>    Data := Peticion+';'+Variable_OPC+';'+Variable</l>
+<c></c>
+<l>    write_serial (SerialHandle, ords(Data))</l>
+<c></c>
+<l>    Conteo_Espera := 0</l>
+<l>    VarSerial := 0</l>
+<l>    while (VarSerial&lt;1 and Conteo_Espera&lt;10)</l>
+<l>        read_serial (SerialHandle, 20, Nchar)</l>
+<l>        Nchar := chrt(Nchar)</l>
+<l>        tuple_number (Nchar, Variable)</l>
+<l>        VarSerial := |Nchar|</l>
+<l>        Conteo_Espera := Conteo_Espera+1</l>
+<l>    endwhile</l>
+<c></c>
+<c></c>
+<c></c>
+<l>catch (Exception)</l>
+<l>endtry</l>
+<c></c>
+<c></c>
+<l>* # ### Fin envio de estado ######################  </l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Send_Data_Info">
+<parameters>
+<parameter id="Mensaje"/>
+<parameter id="SerialHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Visualizar_3D">
+<interface>
+<ic>
+<par name="Modelo3D" base_type="ctrl" dimension="0"/>
+<par name="Parametros_Visualizacion" base_type="ctrl" dimension="0"/>
+<par name="Valores_Visualizacion" base_type="ctrl" dimension="0"/>
+<par name="Visualizar" base_type="ctrl" dimension="0"/>
+<par name="PoseIn" base_type="ctrl" dimension="0"/>
+<par name="Title" base_type="ctrl" dimension="0"/>
+<par name="Label" base_type="ctrl" dimension="0"/>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Pose" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+<l>if (Visualizar)</l>
+<l>    visualize_object_model_3d (WindowHandle, [Modelo3D], [], [], Parametros_Visualizacion, Valores_Visualizacion, Title, Label, [], Pose)</l>
+<l>endif</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Visualizar_3D">
+<parameters>
+<parameter id="Label"/>
+<parameter id="Modelo3D"/>
+<parameter id="Parametros_Visualizacion"/>
+<parameter id="Pose"/>
+<parameter id="PoseIn"/>
+<parameter id="Title"/>
+<parameter id="Valores_Visualizacion"/>
+<parameter id="Visualizar"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Get_Vector_Estados">
+<interface>
+<oc>
+<par name="Vector_Estado_Fx" base_type="ctrl" dimension="2"/>
+</oc>
+</interface>
+<body>
+<l>Vector_Estado_Fx := { {[]}}</l>
+<l>Vector_Estado_Fx.at(0).at(0) := 'Valor Estado'</l>
+<l>Vector_Estado_Fx.at(0).at(1) := 'Codificacion'</l>
+<c></c>
+<l>Nestado := 1</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Adquiriendo fotografia'</l>
+<l>Nestado := 2</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' Adquiriendo informacion de pallets'</l>
+<l>Nestado := 3</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Analizando Pallet'</l>
+<l>Nestado := 4</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Fallo en adquisición de imagen'</l>
+<l>Nestado := 5</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Fallo en ROI Pallet'</l>
+<l>Nestado := 6</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Buscando esquina del pallet'</l>
+<l>Nestado := 7</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'No se detecto Esquina de Pallet'</l>
+<l>Nestado := 8</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' Busco de manera sectorizada cada core en el pallet'</l>
+<l>Nestado := 9</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Leyendo STl del Core'</l>
+<l>Nestado := 10</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Buscando core en el segmento del pallet'</l>
+<l>Nestado := 11</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Core  DETECTADO en segmento de PALLET'</l>
+<l>Nestado := 12</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'No se detecto Core en el segmento del pallet'</l>
+<l>Nestado := 13</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Escritura de existencia de cores de Pallet solicitado'</l>
+<l>Nestado := 14</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Detección de patrón Exitoso'</l>
+<l>Nestado := 15</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'No se a logrado extraer el patrón'</l>
+<l>Nestado := 16</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Buscando Patrón'</l>
+<l>Nestado := 17</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Enviando coordenadas de patrón al Robot'</l>
+<l>Nestado := 18</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Fin GET_PATRON_POSE'</l>
+<l>Nestado := 19</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := '#### BLOQUE  0 INICIADO ####'</l>
+<l>Nestado := 20</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := 'Adquiriendo Multifoto'</l>
+<l>Nestado := 21</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' Busqueda Finalizada'</l>
+<l>Nestado := 22</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := '  ### Error ### Orientacion de Core detectado Incorrecta '</l>
+<l>Nestado := 23</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' ### Error ### Manga No Detectada'</l>
+<l>Nestado := 24</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' Leyendo Modelo de 3D'</l>
+<l>Nestado := 25</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' Leyendo Modelo de Superficie'</l>
+<l>Nestado := 26</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 27</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 28</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 29</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 30</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 31</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 32</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 33</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 34</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 35</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 36</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 37</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 38</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 39</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 40</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 41</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 42</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 43</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 44</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 45</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 46</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 47</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 48</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 49</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 50</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 51</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 52</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 53</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 54</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 55</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 56</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 57</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 58</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 59</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 60</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 61</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 62</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 63</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 64</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 65</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 66</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 67</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 68</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 69</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 70</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 71</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 72</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 73</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 74</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 75</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 76</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 77</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 78</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 79</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 80</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 81</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 82</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 83</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 84</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 85</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 86</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 87</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 88</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 89</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 90</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 91</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<l>Nestado := 92</l>
+<l>Vector_Estado_Fx.at(Nestado).at(0) := Nestado</l>
+<l>Vector_Estado_Fx.at(Nestado).at(1) := ' '</l>
+<c></c>
+</body>
+<docu id="Get_Vector_Estados">
+<parameters>
+<parameter id="Vector_Estado_Fx"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
