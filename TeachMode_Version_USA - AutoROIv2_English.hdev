@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.2" halcon_version="18.11.1.1">
+<hdevelop file_version="1.2" halcon_version="18.11.3.0">
 <procedure name="main">
 <interface/>
 <body>
@@ -14,6 +14,15 @@
 <l>open_serial ('COM100', SerialHandle)</l>
 <l>set_serial_param (SerialHandle, 115200, 8, 'none', 'none', 1, 20, 'unchanged')</l>
 <c></c>
+<c></c>
+<l>Path_Config_File:='C:/Repo GITHUB/Magotteaux-Repo/ConfigFile_VS_MGTX.json'</l>
+<l>global tuple Config_Data</l>
+<l>global tuple Path_Config_File</l>
+<l>read_dict (Path_Config_File, [], [], Config_Data)</l>
+<c>  </c>
+<c></c>
+<c></c>
+<c>   </c>
 <c>***************************************************</c>
 <l>Find_SerialBridge(SerialHandle)</l>
 <c>***************************************************</c>
@@ -62,7 +71,6 @@
 <l>else</l>
 <l>    Send_Data_Info('-&gt; Camera Stereo R1 Connected &lt;-',SerialHandle)</l>
 <l>endif</l>
-<c></c>
 <c></c>
 <c></c>
 <c></c>
@@ -147,6 +155,20 @@
 <l>    Procesando:=0</l>
 <l>    Send_Data_Proceso (SerialHandle, Resultado, Procesando)</l>
 <c>    ******************************************************************************</c>
+<c>    </c>
+<l>    if (false)</l>
+<c>        </c>
+<l>        NxLib:=[]</l>
+<l>        Camera_1:=[]</l>
+<l>        AcqHandle_Cam_0:=[]</l>
+<l>        SerialHandle:=[]</l>
+<l>        Camera0_Parameters:=[]</l>
+<l>        Camera0_Pose:=[]</l>
+<l>    endif</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<c>    </c>
 <c>    </c>
 <l>    try</l>
 <c>        </c>
@@ -1639,10 +1661,14 @@
 <l>Get_Cores (Cores)</l>
 <l>Path_CORE_ID:=Cores</l>
 <c></c>
-<c>** FALSEANDO ENTREGA DE INFO **</c>
-<l>Path:='D:/AI/Vision Artificial/4.-MAGOTTEAUX/SFM_CORES/'</l>
+<l>global tuple Config_Data</l>
+<l>get_dict_tuple(Config_Data, 'Path_SFM_Cores', Path_SFM_Cores)</l>
 <c></c>
-<l>list_files ('D:/AI/Vision Artificial/4.-MAGOTTEAUX/SFM_CORES', 'files', Files)</l>
+<c></c>
+<c>** FALSEANDO ENTREGA DE INFO **</c>
+<l>Path:=Path_SFM_Cores+'/'</l>
+<c></c>
+<l>list_files (Path_SFM_Cores, 'files', Files)</l>
 <c></c>
 <l>for j := 0 to |Path_CORE_ID|-1 by 1</l>
 <l> Path_SFM_Segmentos[j]:=Path+Path_CORE_ID[j]+'/'+Path_CORE_ID[j]+'_SFM.sfm'</l>
@@ -1765,6 +1791,11 @@
 <c></c>
 <l>Data:=Peticion+';'+Variable_OPC</l>
 <c></c>
+<c></c>
+<l>try</l>
+<c>    </c>
+<c>    </c>
+<c></c>
 <l>while (Conteo&gt;Limite)</l>
 <l>    Conteo:=0  </l>
 <c>    </c>
@@ -1791,7 +1822,8 @@
 <c>    </c>
 <c>    </c>
 <l>endwhile</l>
-<c></c>
+<l>catch (Exception)</l>
+<l>endtry</l>
 <l>return ()</l>
 </body>
 <docu id="Read_EthernetIP_Data">
@@ -5595,6 +5627,10 @@
 <body>
 <l>* ##### Envio de estado  #######################</l>
 <l>*wait_seconds (0.1)</l>
+<l>try</l>
+<c>    </c>
+<c>    </c>
+<c></c>
 <l>Valor_Variable:=Vector_Estado_Fx.at(Estado).at(0)</l>
 <l>Tag_Destino:='_EV01_I_Estado'</l>
 <c></c>
@@ -5616,7 +5652,8 @@
 <l>endwhile</l>
 <c></c>
 <l>* #### Fin envio de estado ######################  </l>
-<c></c>
+<l>catch (Exception)</l>
+<l>endtry</l>
 <l>return ()</l>
 </body>
 <docu id="Send_Data_Estado">
@@ -5813,13 +5850,14 @@
 <l>dev_close_window ()</l>
 <c></c>
 <c></c>
-<c></c>
+<l>global tuple Config_Data</l>
+<l>global tuple Path_Config_File</l>
 <c></c>
 <l>Parametros_VisualizacionOut := Parametros_Visualizacion</l>
 <l>Valores_VisualizacionOut := Valores_Visualizacion</l>
 <l>dev_open_window (0, 0, 512, 512, 'black', WindowHandle)</l>
 <c></c>
-<l>Get_EstadoSerialBridge (EstadoSerialBridge)</l>
+<c>**Get_EstadoSerialBridge (EstadoSerialBridge)</c>
 <l>Estado_Get_SFM_STL:=false</l>
 <l>DerivadaCore_In:=['','']</l>
 <l>DerivadaCore_Out:=['','']</l>
@@ -5834,6 +5872,8 @@
 <l>ESTEREO:=0</l>
 <l>OPTICA:=1</l>
 <l>EstadoFx:=0</l>
+<c></c>
+<c>     </c>
 <c>**************************************</c>
 <c>*Imagen de sleeve capturada</c>
 <c>**************************************</c>
@@ -5885,7 +5925,8 @@
 <c></c>
 <c></c>
 <c>*Variable a leer para activar la adquisicion de vision</c>
-<l>Tag_Lectura:='_EV01_O_CmdDatos'         </l>
+<l>Tag_Lectura:='_EV01_O_CmdDatos'        </l>
+<l>_EV1_O_CmdDatos:=0</l>
 <l>Read_EthernetIP_Data (Tag_Lectura, SerialHandle, _EV1_O_CmdDatos)</l>
 <c></c>
 <c></c>
@@ -5953,7 +5994,7 @@
 <c>        ***************************************************************</c>
 <c>        *    Verifico que el comando sea distinto de 0 </c>
 <c>        ************************************************************** </c>
-<l>        Send_Data_Info ('-------------&gt;Waiting that CMD be 0&lt;-------------', SerialHandle)</l>
+<l>        Send_Data_Info ('-------------&gt;Waiting CMD to be other than Zero&lt;-------------', SerialHandle)</l>
 <c>       </c>
 <l>        CmdDatosIs_Not_Zero (_EV1_O_CmdDatos, Tag_Lectura, SerialHandle, NxLib, OPTICA, ESTEREO, AcqHandle_Cam_0, \
                              CamerasConection, Camera_1, Vector_Estado_Fx, g_Error_CamaraOpt_Adq, Camara_conexion_Est, _EV1_O_CmdDatos, NxLib, \
@@ -5962,7 +6003,9 @@
 <c>       * ############################################################################</c>
 <l>        Get_Cores_BD (Path_CORE_ID, Path_SFM_Segmentos, Path_3D_Segmentos)           </l>
 <c>     * ############################################################################</c>
-<c>  </c>
+<l>     read_dict (Path_Config_File, [], [], Config_Data)</l>
+<c>        </c>
+<c>      </c>
 <c>        </c>
 <c>        </c>
 <l>        g_Error_CamaraOpt_Adq:=g_Error_CamaraOpt_Adq_New</l>
@@ -7676,7 +7719,12 @@
 </oc>
 </interface>
 <body>
-<l>list_files ('D:/AI/Vision Artificial/4.-MAGOTTEAUX/SFM_CORES', 'directories', Archivos)</l>
+<c></c>
+<l>global tuple Config_Data</l>
+<l>get_dict_tuple(Config_Data, 'Path_SFM_Cores', Path_SFM_Cores)</l>
+<c></c>
+<c></c>
+<l>list_files (Path_SFM_Cores, 'directories', Archivos)</l>
 <c>* </c>
 <l>Cores := ''</l>
 <l>for Index1 := 0 to |Archivos|-1 by 1</l>
