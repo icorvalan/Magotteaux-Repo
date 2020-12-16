@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="d:\visual\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="16.0">
+ <Targets>
+  <Target Name="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.exe">
+   <Modules>
+    <Module Name="sqlapi.exe">
+     <Namespaces>
+      <Namespace Name="SQLapi">
+       <Types>
+        <Type Name="EthernetIP" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implemente IDisposable en 'EthernetIP' porque crea miembros de los tipos IDisposable siguientes: 'EthernetIPforCLXCom'. Si ya se había distribuido 'EthernetIP', agregar nuevos miembros que implementen IDisposable en este tipo se considera un cambio rotundo para los consumidores existentes.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="SQL_Bridge" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#Backup_Sql()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="No usar Dispose varias veces en objetos" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="4344">El objeto 'conn' admite Dispose más de una vez en el método 'SQL_Bridge.Backup_Sql()'. Para evitar generar una excepción System.ObjectDisposedException, no debe llamar a Dispose más de una vez en un objeto.: Lines: 4344</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#DropTable(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="377">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.DropTable(string)' podría contener las siguientes variables: 'Tabla'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_All_Actives_Cores(System.Int32)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="190">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_All_Actives_Cores(int)' podría contener las siguientes variables: 'base.ToString()'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_BD_Pallet_ToSendSerial(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="1954">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_BD_Pallet_ToSendSerial(string)' podría contener las siguientes variables: 'Tabla_Name'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_Columna_Generic(System.String,System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="654">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_Columna_Generic(string, string, string)' podría contener las siguientes variables: 'Columna_Name', 'Tabla_Name', 'ID'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_Data_Full()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="577">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_Data_Full()' podría contener las siguientes variables: 'this.query'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_DataR2(System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="3756">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_DataR2(string, string)' podría contener las siguientes variables: 'Columna_Name', 'Tabla_Name'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_DataRecetaR2(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="3807">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_DataRecetaR2(string)' podría contener las siguientes variables: 'Tabla_Name'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_FilaTabla(System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="3967">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_FilaTabla(string, string)' podría contener las siguientes variables: 'Tabla_Name', 'Fila'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_IdPattern(System.Int32)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="3113">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_IdPattern(int)' podría contener las siguientes variables: 'base.ToString()'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_IdPattern_Insercion(System.String,System.Int32)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="3161">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_IdPattern_Insercion(string, int)' podría contener las siguientes variables: 'Pattern', 'base.ToString()'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_N_Entidades(System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="767">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_N_Entidades(string, string)' podría contener las siguientes variables: 'Columna_Name', 'Tabla_Name'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_OrdenCores(System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="819">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_OrdenCores(string, string)' podría contener las siguientes variables: 'Tabla_Name', 'Core'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_RamBD_ToSendSerial(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="4023">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Get_RamBD_ToSendSerial(string)' podría contener las siguientes variables: 'Tabla_Name'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Get_VectorSpruesActives(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="No usar Dispose varias veces en objetos" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="4138">El objeto 'databaseConnection' admite Dispose más de una vez en el método 'SQL_Bridge.Get_VectorSpruesActives(string)'. Para evitar generar una excepción System.ObjectDisposedException, no debe llamar a Dispose más de una vez en un objeto.: Lines: 4138</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Import_Sql()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="No usar Dispose varias veces en objetos" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="4373">El objeto 'conn' admite Dispose más de una vez en el método 'SQL_Bridge.Import_Sql()'. Para evitar generar una excepción System.ObjectDisposedException, no debe llamar a Dispose más de una vez en un objeto.: Lines: 4373</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Make_Database_Root(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="4306">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Make_Database_Root(string)' podría contener las siguientes variables: 'Bd_Raiz'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Set_Crear_Tabla(System.String,System.String[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="412">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Set_Crear_Tabla(string, string[])' podría contener las siguientes variables: 'N_Pattern', 'Columna[i]'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Set_Data_To_BD(System.String,System.String[],System.String[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="553">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Set_Data_To_BD(string, string[], string[])' podría contener las siguientes variables: 'Tabla', 'Columnas[i]', 'Columnas[i]', 'ValToAdd[i]', 'ValToAdd[i]'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Set_Update_BD(System.String,System.String,System.String,System.Int32)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="437">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Set_Update_BD(string, string, string, int)' podría contener las siguientes variables: 'Tabla', 'columna', 'Valor_toChange', 'new string[10][9]'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Set_Update_BD_byColum(System.String,System.String,System.String,System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="464">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Set_Update_BD_byColum(string, string, string, string, string)' podría contener las siguientes variables: 'Tabla', 'columna', 'Valor_toChange', 'ColumnaCondicion', 'WhereValor'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Set_Update_BD_byColum_and_More(System.String,System.String,System.String,System.String,System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2020-05-06 22:06:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi" File="SQL_Bridge.cs" Line="492">La cadena de consulta pasada a 'MySqlCommand.MySqlCommand(string, MySqlConnection)' en 'SQL_Bridge.Set_Update_BD_byColum_and_More(string, string, string, string, string, string)' podría contener las siguientes variables: 'Tabla', 'columna', 'Valor_toChange', 'CoreName', 'pallet', 'segmento'. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="No usar Dispose varias veces en objetos" Category="Microsoft.Usage" CheckId="CA2202">
+   <Name>No usar Dispose varias veces en objetos</Name>
+   <Description>Un método Dispose correctamente implementado se puede llamar varias veces sin producir ninguna excepción. Sin embargo, esto no está garantizado y, para evitar generar una excepción System.ObjectDisposedException, no debe llamar al método Dispose más de una vez en un objeto.</Description>
+   <Resolution Name="Default">El objeto {0} admite Dispose más de una vez en el método {1}. Para evitar generar una excepción System.ObjectDisposedException, no debe llamar a Dispose más de una vez en un objeto.: Lines: 4373</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182334.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="16.0.0.0" />
+  </Rule>
+  <Rule TypeName="Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad" Category="Microsoft.Security" CheckId="CA2100">
+   <Name>Revisar consultas SQL para comprobar si tienen vulnerabilidades de seguridad</Name>
+   <Description>Una cadena de comando SQL compilada a partir de datos proporcionados por el usuario es vulnerable a ataques pon inyección de código SQL. Microsoft SQL Server y otros servidores de bases de datos admiten procedimientos almacenados y consultas SQL parametrizadas, que reducen el riesgo de ataques por inyección.</Description>
+   <Resolution Name="WithNonLiterals">La cadena de consulta pasada a {0} en {1} podría contener las siguientes variables: {2}. Si alguna de estas variables puede proceder de datos proporcionados por el usuario, considere el uso de un procedimiento almacenado o una consulta SQL parametrizada en lugar de compilar la consulta con concatenaciones de cadenas.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182310.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="16.0.0.0" />
+  </Rule>
+  <Rule TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001">
+   <Name>Los tipos que poseen campos descartables deben ser descartables</Name>
+   <Description>Los tipos que declaran miembros descartables también deben implementar IDisposable. Si el tipo no posee ningún recurso no administrado, no implementar un finalizador.</Description>
+   <Resolution Name="DependsOnFix">Implemente IDisposable en {0} porque crea miembros de los tipos IDisposable siguientes: {1}. Si ya se había distribuido {0}, agregar nuevos miembros que implementen IDisposable en este tipo se considera un cambio rotundo para los consumidores existentes.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182172.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="16.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Categoría</String>
+  <String Key="Certainty">Certeza</String>
+  <String Key="CollapseAll">Contraer todo</String>
+  <String Key="CheckId">Comprobar id.</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">errores</String>
+  <String Key="ExpandAll">Expandir todo</String>
+  <String Key="Help">Ayuda</String>
+  <String Key="Line">Línea</String>
+  <String Key="Messages">mensajes</String>
+  <String Key="LocationNotStoredInPdb">[Ubicación no almacenada en Pdb]</String>
+  <String Key="Project">Proyecto</String>
+  <String Key="Resolution">Resolución</String>
+  <String Key="Rule">Regla</String>
+  <String Key="RuleFile">Archivo de regla</String>
+  <String Key="RuleDescription">Descripción de la regla</String>
+  <String Key="Source">Origen</String>
+  <String Key="Status">Estado</String>
+  <String Key="Target">Círculos concéntricos</String>
+  <String Key="Warning">Advertencia</String>
+  <String Key="Warnings">advertencias</String>
+  <String Key="ReportTitle">Informe de análisis del código</String>
+ </Localized>
+</FxCopReport>

@@ -1,0 +1,110 @@
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.Form1.resources
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.Properties.Resources.resources
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.GenerateResource.cache
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.exe
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.pdb
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.config
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.pdb
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.CopyComplete
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\Interop.Microsoft.Office.Core.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\Interop.Microsoft.Office.Interop.Excel.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\Interop.VBIDE.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.ResolveComReference.cache
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MySql.Data.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Google.Protobuf.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MySql.Data.xml
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\AdvancedHMIControls.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\AdvancedHMIDrivers.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MfgControl.AdvancedHMI.Controls.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MfgControl.AdvancedHMI.Drivers.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\OpcComRcw.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\OpcNetApi.Com.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\OpcNetApi.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csprojAssemblyReference.cache
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.manifest
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.application
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.exe.manifest
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.application
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MySqlBackup.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Renci.SshNet.dll
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Google.Protobuf.xml
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Renci.SshNet.xml
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.config
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.manifest
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.application
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.pdb
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.CodeAnalysisLog.xml
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.lastcodeanalysissucceeded
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\AdvancedHMIControls.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\AdvancedHMIDrivers.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Google.Protobuf.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MfgControl.AdvancedHMI.Controls.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MfgControl.AdvancedHMI.Drivers.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MySql.Data.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MySqlBackup.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\OpcComRcw.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\OpcNetApi.Com.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\OpcNetApi.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Renci.SshNet.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Google.Protobuf.xml
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\MySql.Data.xml
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\Renci.SshNet.xml
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csprojAssemblyReference.cache
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\Interop.Microsoft.Office.Core.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\Interop.Microsoft.Office.Interop.Excel.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\Interop.VBIDE.dll
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.ResolveComReference.cache
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.Form1.resources
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.Properties.Resources.resources
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.GenerateResource.cache
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.exe.manifest
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.application
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.CopyComplete
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.exe
+C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.pdb
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.CodeAnalysisLog.xml
+C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\bin\Debug\SQLapi.exe.lastcodeanalysissucceeded
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csprojAssemblyReference.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.ResolveComReference.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.Form1.resources
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.Properties.Resources.resources
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.GenerateResource.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.csproj.CoreCompileInputs.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.exe
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi\SQLapi\obj\Debug\SQLapi.pdb
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.csprojAssemblyReference.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.csproj.ResolveComReference.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.Form1.resources
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.Properties.Resources.resources
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.csproj.GenerateResource.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.csproj.CoreCompileInputs.cache
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.exe
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.pdb
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.exe.config
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.exe.manifest
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.application
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.exe
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.pdb
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.exe.CodeAnalysisLog.xml
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\SQLapi.exe.lastcodeanalysissucceeded
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\BouncyCastle.Crypto.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\Google.Protobuf.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\MySql.Data.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\MySqlBackup.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\Newtonsoft.Json.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\Renci.SshNet.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\Google.Protobuf.xml
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\MySql.Data.xml
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\Newtonsoft.Json.xml
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\bin\Debug\Renci.SshNet.xml
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\Interop.Microsoft.Office.Core.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\Interop.Microsoft.Office.Interop.Excel.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\Interop.VBIDE.dll
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.exe.manifest
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.application
+D:\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\SQLapi - Production\SQLapi\obj\Debug\SQLapi.csproj.CopyComplete
