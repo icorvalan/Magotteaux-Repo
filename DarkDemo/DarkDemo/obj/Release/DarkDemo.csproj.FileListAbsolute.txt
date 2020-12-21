@@ -1,0 +1,5 @@
+C:\Users\Vision MGTX\Documents\GitHub\REPOMGTX\Mgtx_Vision\TeacheMode\TeachMode_V31\DarkDemo\DarkDemo\obj\Release\DarkDemo.csprojAssemblyReference.cache
+C:\Users\Vision MGTX\Documents\GitHub\REPOMGTX\Mgtx_Vision\TeacheMode\TeachMode_V31\DarkDemo\DarkDemo\obj\Release\DarkDemo.Form1.resources
+C:\Users\Vision MGTX\Documents\GitHub\REPOMGTX\Mgtx_Vision\TeacheMode\TeachMode_V31\DarkDemo\DarkDemo\obj\Release\DarkDemo.Form2.resources
+C:\Users\Vision MGTX\Documents\GitHub\REPOMGTX\Mgtx_Vision\TeacheMode\TeachMode_V31\DarkDemo\DarkDemo\obj\Release\DarkDemo.Properties.Resources.resources
+C:\Users\Vision MGTX\Documents\GitHub\REPOMGTX\Mgtx_Vision\TeacheMode\TeachMode_V31\DarkDemo\DarkDemo\obj\Release\DarkDemo.csproj.GenerateResource.cache

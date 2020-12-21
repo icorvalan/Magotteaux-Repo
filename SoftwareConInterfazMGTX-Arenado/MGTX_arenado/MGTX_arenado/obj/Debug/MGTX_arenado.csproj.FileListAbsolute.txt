@@ -1,0 +1,12 @@
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\bin\Debug\MGTX_arenado.exe.config
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\bin\Debug\MGTX_arenado.exe
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\bin\Debug\MGTX_arenado.pdb
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.csprojAssemblyReference.cache
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.Form1.resources
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.Properties.Resources.resources
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.csproj.GenerateResource.cache
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.csproj.CoreCompileInputs.cache
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.exe
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.pdb
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.csproj.ResolveComReference.cache
+C:\Users\Bemjamin Vargas\Documents\GitHub\REPOSDEMIRS\MGTX_Arenado\MGTX_arenado\MGTX_arenado\obj\Debug\MGTX_arenado.Form2.resources
