@@ -1783,21 +1783,62 @@ namespace MGTX_arenado
             string v1 = "99";
             string v2 = "50";
             int cont = 0;
-           
 
+
+            //Camino Robot perimetro
+            //obteniendo  columnas Perimetro
+            //Declaración de lista que contiene columnas de perimetro
+            List<int> Colum = new List<int>();
+            foreach (var item in DictVerticesPerimetro.Keys)
+            {
+                verticesPerimeter point = DictVerticesPerimetro[item];
+
+                int y = Convert.ToInt32(float.Parse(point.y));
+                Colum.Add(y);
+            }
+            //Se eliminan elementos duplicados
+            Colum = Colum.Distinct().ToList();
+
+            //Obtendiendo Filas Perimetro
+            //Declaración de lista que contiene filas Perimetro
+            List<int> Row = new List<int>();
+            foreach (var item in DictVerticesPerimetro.Keys)
+            {
+                verticesPerimeter point = DictVerticesPerimetro[item];
+
+                int x = Convert.ToInt32(float.Parse(point.x));
+                Row.Add(x);
+            }
+            //Se eliminan elementos duplicados
+            Row = Row.Distinct().ToList();
+            //Minimas Columnas Perimetro
+            int minColumn = Colum.Min();
+            //Maximas Columnas Perimetro
+            int maxColumn = Colum.Max();
+            //minimas filas Perimetro
+            int minRow = Row.Min();
+            //maximas filas Perimetro
+            int maxRow = Row.Max();
+
+            //Agregando matriz para perimetro
             //Camino Robot perimetro
             //Vertices Perimetro Superior
             for (int i = 0; i < 2; i++)
             {
                 string[] vector_info = new string[13];
-                verticesPerimeter vp = DictVerticesPerimetro[i];
-                int x = Convert.ToInt32(float.Parse(vp.x));
-                int y = Convert.ToInt32(float.Parse(vp.y));
+
                 vector_info[1] = "SANDMIXERP";
                 vector_info[2] = "15";
                 vector_info[3] = "0";
-                vector_info[4] = x.ToString() ;
-                vector_info[5] = y.ToString();
+                vector_info[4] = minRow.ToString();
+                if (i.Equals(1))
+                {
+                    vector_info[5] = maxColumn.ToString();
+                }
+                else
+                {
+                    vector_info[5] = minColumn.ToString();
+                }
                 vector_info[6] = v2;
                 vector_info[7] = "0";
                 double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
@@ -1808,21 +1849,25 @@ namespace MGTX_arenado
                 vector_info[11] = "1";
                 vector_info[12] = "1";
                 excelClass.Insertar_Info(vector_info);
-
-
             }
-            //Perimetro Vertices Inferior
-            for (int i = DictVerticesPerimetro.Count() - 3; i < DictVerticesPerimetro.Count()-1; i++)
+
+            //Vertices Perimetro Inferior
+            for (int i = 0; i < 2; i++)
             {
                 string[] vector_info = new string[13];
-                verticesPerimeter vp = DictVerticesPerimetro[i];
-                int x = Convert.ToInt32(float.Parse(vp.x));
-                int y = Convert.ToInt32(float.Parse(vp.y));
+
                 vector_info[1] = "SANDMIXERP";
                 vector_info[2] = "15";
                 vector_info[3] = "0";
-                vector_info[4] = x.ToString();
-                vector_info[5] = y.ToString();
+                vector_info[4] = maxRow.ToString();
+                if (i.Equals(1))
+                {
+                    vector_info[5] = maxColumn.ToString();
+                }
+                else
+                {
+                    vector_info[5] = minColumn.ToString();
+                }
                 vector_info[6] = v2;
                 vector_info[7] = "0";
                 double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
@@ -1833,8 +1878,8 @@ namespace MGTX_arenado
                 vector_info[11] = "1";
                 vector_info[12] = "1";
                 excelClass.Insertar_Info(vector_info);
-
             }
+
 
             //Dimensiones de Pattern
             List<string> VecSup = new List<string>();
