@@ -1620,42 +1620,50 @@ namespace DarkDemo
                 value = (string)item.Cells["Pattern"].Value;
             }
             MessageBox.Show(value);
-            //string valueCombo = (dataGridView2.com)
+            
 
         }
 
         public void Actualizar_Combobox_Patterns()
         {
-            int id = 0, index_Patter = 1, sprue_Pos_col = 2, repetition_col = 3, CopeOrDrag_Col = 4;
-            int UltimaFila = dataGridView2.RowCount;
-            var tablasActivas = SQL.get_Tablas_Activas();
-            string[] TablasValidas = new string[5000];
-
-            int indexTval = 0;
-            for (int i = 0; i < tablasActivas.Length; i++)
+            try
             {
-                if (tablasActivas[i].ToLower().Contains("ram") || tablasActivas[i].ToLower().Contains("pallet") || tablasActivas[i].ToLower().Contains("pattern"))
+                int id = 0, index_Patter = 1, sprue_Pos_col = 2, repetition_col = 3, CopeOrDrag_Col = 4;
+                int UltimaFila = dataGridView2.RowCount;
+                var tablasActivas = SQL.get_Tablas_Activas();
+                string[] TablasValidas = new string[5000];
+
+                int indexTval = 0;
+                for (int i = 0; i < tablasActivas.Length; i++)
                 {
-                    continue;
+                    if (tablasActivas[i].ToLower().Contains("ram") || tablasActivas[i].ToLower().Contains("pallet") || tablasActivas[i].ToLower().Contains("pattern"))
+                    {
+                        continue;
+                    }
+                    TablasValidas[indexTval] = tablasActivas[i];
+                    indexTval++;
                 }
-                TablasValidas[indexTval] = tablasActivas[i];
-                indexTval++;
+                Array.Resize(ref TablasValidas, indexTval);
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    DataGridViewComboBoxCell comboBoxCell = (row.Cells[sprue_Pos_col] as DataGridViewComboBoxCell);
+
+
+                    comboBoxCell = (row.Cells[index_Patter] as DataGridViewComboBoxCell);
+                    comboBoxCell.Items.Clear();
+                    for (int i = 0; i < TablasValidas.Length; i++) { comboBoxCell.Items.Add(TablasValidas[i]); }
+
+
+
+
+
+                }
             }
-            Array.Resize(ref TablasValidas, indexTval);
-            foreach (DataGridViewRow row in dataGridView2.Rows)
+            catch(Exception ex)
             {
-                DataGridViewComboBoxCell comboBoxCell = (row.Cells[sprue_Pos_col] as DataGridViewComboBoxCell);
-
-
-                comboBoxCell = (row.Cells[index_Patter] as DataGridViewComboBoxCell);
-                comboBoxCell.Items.Clear();
-                for (int i = 0; i < TablasValidas.Length; i++) { comboBoxCell.Items.Add(TablasValidas[i]); }
-
-
-
-
-
+                MessageBox.Show("Error" + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
 
         }
 
@@ -3529,7 +3537,7 @@ namespace DarkDemo
                 {
                     if (comboPosSprue.SelectedIndex < 0)
                     {
-                        MessageBox.Show("Seleccione una posición para SPRUE", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Select a position for SPRUE", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
@@ -3547,7 +3555,7 @@ namespace DarkDemo
                 {
                     if (CodCore.Equals("LOC"))
                     {
-                        MessageBox.Show("Seleccione un tipo de LOC", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Select a LOC type", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                 }
