@@ -349,9 +349,9 @@ namespace MGTX_arenado
         public void MakeMatrix()
         {
             //Obtencion de largo de PATTERN
-            float length = Convert.ToInt32(Math.Round(float.Parse(X1Pattern)));
+            float length = Math.Abs(Convert.ToInt32(Math.Round(float.Parse(X1Pattern))));
             //Obtencion de Ancho de PATTERN
-            float weight = Convert.ToInt32(Math.Round(float.Parse(Y2Pattern)));
+            float weight = Math.Abs(Convert.ToInt32(Math.Round(float.Parse(Y2Pattern))));
 
             //Inicialización de variables de posicion
             int x1, x2, y1, y2 = 0;
@@ -1739,41 +1739,41 @@ namespace MGTX_arenado
             int f = 0;
             int c = 0;
             //llenado de matriz usando puntos medios y camino en zig zag
-            for (int i = 0; i < row; i++)
-            {
-                if (i % 2 != 0)
-                {
-                    for (int j = column - 1; j >= 0; j--)
-                    {
-                        if (c.Equals(column))
-                        {
-                            c = 0;
-                        }
+            //for (int i = 0; i < row; i++)
+            //{
+            //    if (i % 2 != 0)
+            //    {
+            //        for (int j = column - 1; j >= 0; j--)
+            //        {
+            //            if (c.Equals(column))
+            //            {
+            //                c = 0;
+            //            }
 
-                        dataGridView1.Rows[f].Cells[c].Value = auxMatrix[i, j];
-                        pointsRobot.Add(dataGridView1.Rows[f].Cells[c].Value.ToString());
-                        c++;
-                    }
-                }
-                else
-                {
+            //            dataGridView1.Rows[f].Cells[c].Value = auxMatrix[i, j];
+            //            pointsRobot.Add(dataGridView1.Rows[f].Cells[c].Value.ToString());
+            //            c++;
+            //        }
+            //    }
+            //    else
+            //    {
                     
-                    for (int j = 0; j < column; j++)
-                    {
-                        if (c.Equals(column))
-                        {
-                            c = 0;
-                        }
+            //        for (int j = 0; j < column; j++)
+            //        {
+            //            if (c.Equals(column))
+            //            {
+            //                c = 0;
+            //            }
 
-                        dataGridView1.Rows[f].Cells[c].Value = auxMatrix[i, j];
-                        pointsRobot.Add(dataGridView1.Rows[f].Cells[c].Value.ToString());
-                        c++;
-                    }
-                }
+            //            dataGridView1.Rows[f].Cells[c].Value = auxMatrix[i, j];
+            //            pointsRobot.Add(dataGridView1.Rows[f].Cells[c].Value.ToString());
+            //            c++;
+            //        }
+            //    }
 
-                f++;
+            //    f++;
                   
-            }
+            //}
         }
 
         class verticesPerimeter
