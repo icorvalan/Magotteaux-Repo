@@ -238,7 +238,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(163, 749);
+            this.panel1.Size = new System.Drawing.Size(163, 701);
             this.panel1.TabIndex = 0;
             // 
             // button5
@@ -328,9 +328,9 @@
             this.panel2.Controls.Add(this.groupBox4);
             this.panel2.Controls.Add(this.groupBox40);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(163, 35);
+            this.panel2.Location = new System.Drawing.Point(163, 351);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1121, 714);
+            this.panel2.Size = new System.Drawing.Size(1121, 350);
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -1419,9 +1419,9 @@
             this.panel4.Controls.Add(this.dataGridView2);
             this.panel4.Controls.Add(this.dataGridView1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(163, -30);
+            this.panel4.Location = new System.Drawing.Point(163, 131);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1121, 65);
+            this.panel4.Size = new System.Drawing.Size(1121, 220);
             this.panel4.TabIndex = 16;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
@@ -2000,7 +2000,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
-            this.ClientSize = new System.Drawing.Size(1284, 749);
+            this.ClientSize = new System.Drawing.Size(1284, 701);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.simpleLED1);

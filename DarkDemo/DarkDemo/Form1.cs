@@ -2739,28 +2739,7 @@ namespace DarkDemo
                             
 
 
-                            //if (g_pos.Equals(auxPos))
-                            //{
-                            //    g_pos += 1;
-                            //    comboView.Value = (g_pos).ToString();
-                            //    firstPattern = false;
-
-                            //}
-                            //if (g_pos.Equals(auxPos+1))
-                            //{
-                            //    if (firstPattern)
-                            //    {
-                            //        g_pos = auxPos;
-                            //        comboView.Value = g_pos.ToString();
-                            //    }
-
-
-                            //}
-                            //else
-                            //{
-                            //    g_pos = auxPos;
-                            //    comboView.Value = g_pos.ToString();
-                            //}
+                            
                         }
                       
 
@@ -2769,7 +2748,7 @@ namespace DarkDemo
                     }
                     else
                     {
-                        MessageBox.Show("Inconsistencia en el numero de Sprue en recete:" + selected, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Inconsistency in the Sprue number on the prescription:" + selected, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -2889,12 +2868,12 @@ namespace DarkDemo
                 }
                 else if (ExcelClass.getSprueRepetidas(g_WhiteRecipe))
                 {
-                    MessageBox.Show("Problemas con contenido de data ingresada en argumento [SPRUE]", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Problems with data content entered in argument [SPRUE]", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 else if (ExcelClass.Get_FilasRepetidas_Excel(g_WhiteRecipe))
                 {
-                    MessageBox.Show("Problemas con contenido de data ingresada", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Problems with data content entered", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 else
