@@ -1234,42 +1234,52 @@ namespace MGTX_arenado
             int column = g_dataMatrix.GetLength(1);
             int f = 0;
             int c = 0;
-            //llenado de matriz usando puntos medios y camino en zig zag
+            //Camino Robot
             for (int i = 0; i < row; i++)
             {
-                if (i % 2 != 0)
+                for (int j = 0; j < column; j++)
                 {
-                    for (int j = column - 1; j >= 0; j--)
-                    {
-                        if (c.Equals(column))
-                        {
-                            c = 0;
-                        }
-
-                        g_dataMatrix[i,j] = auxMatrix[i, j];
-                        pointsRobot.Add(auxMatrix[f, c]);
-                        c++;
-                    }
+                    pointsRobot.Add(auxMatrix[i, j]);
                 }
-                else
-                {
-
-                    for (int j = 0; j < column; j++)
-                    {
-                        if (c.Equals(column))
-                        {
-                            c = 0;
-                        }
-
-                        g_dataMatrix[i, j] = auxMatrix[i, j];
-                        pointsRobot.Add(auxMatrix[f, c]);
-                        c++;
-                    }
-                }
-
-                f++;
 
             }
+
+            //llenado de matriz usando puntos medios y camino en zig zag
+            //for (int i = 0; i < row; i++)
+            //{
+            //    if (i % 2 != 0)
+            //    {
+            //        for (int j = column - 1; j >= 0; j--)
+            //        {
+            //            if (c.Equals(column))
+            //            {
+            //                c = 0;
+            //            }
+
+            //            g_dataMatrix[i,j] = auxMatrix[i, j];
+            //            pointsRobot.Add(auxMatrix[f, c]);
+            //            c++;
+            //        }
+            //    }
+            //    else
+            //    {
+
+            //        for (int j = 0; j < column; j++)
+            //        {
+            //            if (c.Equals(column))
+            //            {
+            //                c = 0;
+            //            }
+
+            //            g_dataMatrix[i, j] = auxMatrix[i, j];
+            //            pointsRobot.Add(auxMatrix[f, c]);
+            //            c++;
+            //        }
+            //    }
+
+            //    f++;
+
+            //}
 
         }
         /// <summary>
