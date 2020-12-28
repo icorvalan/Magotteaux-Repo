@@ -249,9 +249,9 @@ namespace MGTX_arenado
         public void MakeMatrix()
         {
             //Obtencion de largo de PATTERN
-            float length = Convert.ToInt32(Math.Round(float.Parse(X1Pattern)));
+            float length = Math.Abs(Convert.ToInt32(Math.Round(float.Parse(X1Pattern))));
             //Obtencion de Ancho de PATTERN
-            float weight = Convert.ToInt32(Math.Round(float.Parse(Y2Pattern)));
+            float weight = Math.Abs(Convert.ToInt32(Math.Round(float.Parse(Y2Pattern))));
 
             //Inicialización de variables de posicion
             int x1, x2, y1, y2 = 0;
@@ -576,7 +576,7 @@ namespace MGTX_arenado
                         float datax2 = float.Parse(dataCoords[2]);
                         float datay2 = float.Parse(dataCoords[3]);
                         
-                        if ((x1 < datax1) && (datay1 < y1 && y1 < datay2))
+                        if ((x1 <= datax1) && (datay1 <= y1 && y1 <= datay2))
                         {
                             //dataGridView1.Rows[j].Cells[k].Style.BackColor = Color.Green;
                             //Se guarda posicion del punto central de la matriz 
