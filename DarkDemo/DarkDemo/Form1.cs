@@ -2899,8 +2899,6 @@ namespace DarkDemo
                             MGTXARENADO.ReadExcel(data);
                             //Creacion de cuadro delimietador para encerrar el elemento encontrado
                             MGTXARENADO.findZone();
-                            //Creacion de perimetro de cuadro delimitador y posterior camino de robot
-                            MGTXARENADO.CrearCaminoRobot();
                             //Guardado de camino de robot
                             MGTXARENADO.GuardadoDeDatosExcel(ExcelClass);
                         }

@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TeachMode_MIRS.exe" size="342528">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TeachMode_MIRS.exe" size="336384">
       <assemblyIdentity name="TeachMode_MIRS" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uS39sCg+P5kH1q3HqqSA832yV0wvYdBRyMJpk1G7fic=</dsig:DigestValue>
+        <dsig:DigestValue>dXfueVnGuEO4fOti1Lww5nYBhehQ/7PLlSnkmHddvrY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
