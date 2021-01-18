@@ -244,6 +244,10 @@ namespace SQLapi
         }
 
 
+
+
+
+
         /// <summary>
         /// Se realiza la BD R2 con la informacion del pattern actual en R2
         /// </summary>
@@ -255,7 +259,7 @@ namespace SQLapi
             try
             {
                 string Tag_MakeBDD_R2 = "_EV02_I_EjeZZ";
-                int  Tag_MakeBDD_R2_plc = Convert.ToInt16( EthernetIP.Lectura_tag(Tag_MakeBDD_R2));
+                int Tag_MakeBDD_R2_plc = Convert.ToInt16(EthernetIP.Lectura_tag(Tag_MakeBDD_R2));
 
                 SQL_Bridge.g_Estado_RecetaR2 = true;
                 //////////////////////////////////////////////////////////////////
@@ -267,18 +271,18 @@ namespace SQLapi
                 string PATTERN_R2 = EthernetIP.Lectura_tag("_EBD_O_ListPattSelR02");
 
 
-               
-            //    PATTERN_R2 = "6000782";
+
+                //    PATTERN_R2 = "6000782";
 
                 DerivadaPatternR2[1] = PATTERN_R2;
 
-     
+
                 g_LogTextMain = "Adquiriendo Receta R2 -> " + PATTERN_R2;
 
                 label_pattern_r2.Text = DerivadaPatternR2[1];
 
 
-                if ( (PATTERN_R2 != null && (DerivadaPatternR2[0]!= DerivadaPatternR2[1])) || Tag_MakeBDD_R2_plc==10)
+                if ((PATTERN_R2 != null && (DerivadaPatternR2[0] != DerivadaPatternR2[1])) || Tag_MakeBDD_R2_plc == 10)
                 {
 
                     EthernetIP.Escritura_tag(Tag_MakeBDD_R2, 0);
@@ -290,7 +294,7 @@ namespace SQLapi
                     List<string[]> RecetaR2_Localizadores = new List<string[]>();
                     List<string[]> RecetaR2_Sprues = new List<string[]>();
 
-                    string[] ListaBusqueda = { "LOC", "SPRUE", "LID", "PATTERN", "DOWEL" };
+                    string[] ListaBusqueda = { "LOC", "SPRUE", "LID", "PATTERN", "DOWEL", "SANDMIXER" };
 
                     for (int i = 0; i < Receta.Count; i++)
                     {
@@ -300,64 +304,15 @@ namespace SQLapi
                             AuxReceta[2].ToUpper().Contains(ListaBusqueda[1]) ||
                             AuxReceta[2].ToUpper().Contains(ListaBusqueda[2]) ||
                             AuxReceta[2].ToUpper().Contains(ListaBusqueda[3]) ||
-                            AuxReceta[2].ToUpper().Contains(ListaBusqueda[4]))
+                            AuxReceta[2].ToUpper().Contains(ListaBusqueda[4]) ||
+                            AuxReceta[2].ToUpper().Contains(ListaBusqueda[5])
+                            )
                         {
                             RecetaR2.Add(AuxReceta);
                         }
                     }
 
 
-                    double[] Error_R1_To_R2 = new double[3];
-                    Error_R1_To_R2[0] = ( -1.16+2+2 )*0;
-                    Error_R1_To_R2[1] = ( 11.63+1.3-2*0 )*0;
-                    Error_R1_To_R2[2] = (  -32+13.15 )*0;
-                    //////////////////////////////////////////////////////////////////////////////////////////////
-                    // Correccion de error  Robot 1 y Robot 2
-                    int InitEjes = 5;
-                    for (int j = 0; j < RecetaR2.Count; j++)
-                    {
-                        
-                        for (int i = InitEjes; i < InitEjes+3; i++)
-                        {
-                            if (RecetaR2[j][2] == "PATTERN")
-                            {
-
-                                double AuxEje = Convert.ToDouble(RecetaR2[j][i]);
-                                RecetaR2[j][i] = AuxEje.ToString();
-                            }
-                            else {
-                                double AuxEje = Convert.ToDouble(RecetaR2[j][i]) + (Error_R1_To_R2[i - InitEjes]);
-                                RecetaR2[j][i] = AuxEje.ToString();
-                            }
-
-                        }
-
-                    }
-
-                    /////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-                    string[] ElementosR2 = new string[RecetaR2.Count];
-                    string[] DiametrosElementosR2 = new string[RecetaR2.Count];
-                    string DataToR2 = "";
-
-                    for (int i = 0; i < RecetaR2.Count; i++)
-                    {
-                        string[] AuxReceta = RecetaR2[i];
-                        ElementosR2[i] = AuxReceta[2];
-                        DiametrosElementosR2[i] = AuxReceta[11];
-
-
-                    }
-
-                    DataToR2 = ElementosR2[0] + ";" + DiametrosElementosR2[0];
-
-                    for (int i = 1; i < ElementosR2.Length; i++)
-                    {
-                        DataToR2 = DataToR2 + ";" + ElementosR2[i] + ";" + DiametrosElementosR2[i];
-
-                    }
 
 
 
@@ -371,308 +326,38 @@ namespace SQLapi
                     SQL.DropTable(BaseDatosName);
 
                     int Nelementos = 40;
-
+                    int Idex_Insercion_BDDR2 = 0;
                     string[] Header = { "Tipo", "X", "Y", "Z", "A", "B", "C", "NumEntidad", "Segmento", "Insertar/Sacar" };
                     SQL.Set_Crear_Tabla(BaseDatosName, Header);
 
-                    string[] addV = new string[Header.Length];
-                    for (int k = 0; k < Header.Length; k++) { addV[k] = " "; }
-                    for (int k = 0; k < Nelementos; k++)
-                    {
-                        SQL.Set_Data_To_BD(BaseDatosName, Header, addV);
-                    }
-
-
-                    //////////////////////////////////////////////////////////////
-                    /// Se Ordenan los elementos  primero por Insercion  (tapas)
-                    //////////////////////////////////////////////////////////////
-
-
-                    string ExisteLocalizador = "No", ExisteSprue = "No", ExisteTapa = "No", ExisteDowel = "No";
-                    int Idex_Insercion_BDDR2 = 0;
-
                     for (int i = 0; i < RecetaR2.Count; i++)
                     {
-                        if (RecetaR2[i][3] == "10") // <- PatternInfo
-                        {
-                            string[] Data = new string[Header.Length];
-                            RecetaR2_Ordenada.Add(RecetaR2[i]);
-                            Data[0] = RecetaR2[i][2];  // Tipo
-                            Data[1] = RecetaR2[i][5];  // X      Pattern Ancho
-                            Data[2] = RecetaR2[i][6];  // Y      Pattern Largo
-                            Data[3] = RecetaR2[i][7];  // Z      Pattern Alto
-                            Data[4] = RecetaR2[i][8];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2[i][9];  // B      Osffet Alto
-                            Data[6] = RecetaR2[i][10]; // A      Osffet Alto
-                                                       //Data[7] NumEntidad
-                                                       //Data[8] Segmento
-                            Data[9] = "0"; // se debe insertar
+                        string[] Data = new string[Header.Length];
 
-                            SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
-                            Idex_Insercion_BDDR2++;
-
-                        }
-
-                    }
-
-                    for (int i = 0; i < RecetaR2.Count; i++)
-                    {
-                        if (RecetaR2[i][3] == "8") // <- Es una Tapa?
-                        {
-
-                            ExisteTapa = "Si";
-
-                            RecetaR2_Ordenada.Add(RecetaR2[i]);
-
-                            string[] Data = new string[Header.Length];
-                            Data[0] = RecetaR2[i][2];  // Tipo
-                            Data[1] = RecetaR2[i][5];  // X      Pattern Ancho
-                            Data[2] = RecetaR2[i][6];  // Y      Pattern Largo
-                            Data[3] = RecetaR2[i][7];  // Z      Pattern Alto
-                            Data[4] = RecetaR2[i][8];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2[i][9];  // B      Osffet Alto
-                            Data[6] = RecetaR2[i][10]; // A      Osffet Alto
-                                                       //Data[7] NumEntidad
-                                                       //Data[8] Segmento
-                            Data[9] = "1"; // se debe insertar
-
-                            string[] NewData = SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
-
-                            RecetaR2_Tapas.Add(NewData);
-                            Idex_Insercion_BDDR2++;
-
-
-                        }
-
-                        if (RecetaR2[i][3] == "1")   // <- es un localizador
-                        {
-                            ExisteLocalizador = "Si";
-
-                            string[] Data = new string[Header.Length];
-                            Data[0] = RecetaR2[i][2];  // Tipo
-                            Data[1] = RecetaR2[i][5];  // X      Pattern Ancho
-                            Data[2] = RecetaR2[i][6];  // Y      Pattern Largo
-                            Data[3] = RecetaR2[i][7];  // Z      Pattern Alto
-                            Data[4] = RecetaR2[i][8];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2[i][9];  // B      Osffet Alto
-                            Data[6] = RecetaR2[i][10]; // A      Osffet Alto
-                                                       //Data[7] NumEntidad
-                                                       //Data[8] Segmento
-                            Data[9] = "1"; // se debe insertar
-
-                            RecetaR2_Localizadores.Add(SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, false));
+                        Data[0] = RecetaR2.ElementAt(0).ToString();
+                        Data[1] = RecetaR2.ElementAt(1).ToString();
+                        Data[2] = RecetaR2.ElementAt(2).ToString();
+                        Data[3] = RecetaR2.ElementAt(3).ToString();
+                        Data[4] = RecetaR2.ElementAt(4).ToString();
+                        Data[5] = RecetaR2.ElementAt(5).ToString();
+                        Data[6] = RecetaR2.ElementAt(6).ToString();
 
 
 
-                        }
-
-                        if (RecetaR2[i][3] == "4")   // <- es un Sprue
-                        {
-
-                            ////////////////////////////////////
-                            /// Se suma la constante de toma del Sprue
-                            ////////////////////////////////////
-
-                            double Const_Toma = -54;
-
-
-                            string[] Data = new string[Header.Length];
-                            ExisteSprue = "Si";
-                            Data[0] = RecetaR2[i][2];  // Tipo
-                            Data[1] = RecetaR2[i][5];  // X      Pattern Ancho
-                            Data[2] = RecetaR2[i][6];  // Y      Pattern Largo
-
-                            Data[3] = RecetaR2[i][7];  // Z      Pattern Alto
-
-                            Data[3] = (Convert.ToDouble(Data[3]) + Const_Toma).ToString();
-
-                            Data[4] = RecetaR2[i][8];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2[i][9];  // B      Osffet Alto
-                            Data[6] = RecetaR2[i][10]; // A      Osffet Alto
-                                                       //Data[7] NumEntidad
-                                                       //Data[8] Segmento
-                            Data[9] = "1"; // se debe insertar
-
-                            RecetaR2_Sprues.Add(SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, false));
-
-                        }
-
-                        if (RecetaR2[i][3] == "9")   // <- es un Dowel
-                        {
-                            string[] Data = new string[Header.Length];
-                            ExisteDowel = "Si";
-                            Data[0] = RecetaR2[i][2];  // Tipo
-                            Data[1] = RecetaR2[i][5];  // X      Pattern Ancho
-                            Data[2] = RecetaR2[i][6];  // Y      Pattern Largo
-                            Data[3] = RecetaR2[i][7];  // Z      Pattern Alto
-                            Data[4] = RecetaR2[i][8];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2[i][9];  // B      Osffet Alto
-                            Data[6] = RecetaR2[i][10]; // A      Osffet Alto
-                                                       //Data[7] NumEntidad
-                                                       //Data[8] Segmento
-                            Data[9] = "1"; // se debe insertar
-
-                            var Auxaram = SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
-                            Idex_Insercion_BDDR2++;
-                        }
-
-
-
+                        SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
+                        Idex_Insercion_BDDR2++;
                     }
 
 
-                    ////////////////////////////////////////////////////////
-                    /// Se busca el error minimo entre loc y tapa si existen
-                    ////////////////////////////////////////////////////////
-
-                    if (ExisteTapa == "Si" && ExisteLocalizador == "Si")
-                    {
-                        double[,] ram_matrixLoc = new double[RecetaR2_Tapas.Count, 3];
-
-                        for (int i = 0; i < RecetaR2_Localizadores.Count; i++)
-                        {
-                            ram_matrixLoc[i, 0] = Convert.ToDouble(RecetaR2_Localizadores[i][1]);
-                            ram_matrixLoc[i, 1] = Convert.ToDouble(RecetaR2_Localizadores[i][2]);
-                            ram_matrixLoc[i, 2] = Convert.ToDouble(RecetaR2_Localizadores[i][3]);
-                        }
-
-                        double[,] matrixError = new double[RecetaR2_Tapas.Count, 3];
-
-                        for (int i = 0; i < RecetaR2_Tapas.Count; i++)
-                        {
-                            string[] ram_PosTapa = RecetaR2_Tapas[i];
-                            double[] ram_PosTapa_d = new double[3];
 
 
 
-                            for (int j = 0; j < 3; j++) { ram_PosTapa_d[j] = Convert.ToDouble(ram_PosTapa[j + 1]); }
-
-                            double[] VectorError = new double[ram_matrixLoc.GetLength(0)];
-
-                            for (int l = 0; l < ram_matrixLoc.GetLength(0); l++)
-                            {
-
-
-                                for (int k = 0; k < ram_matrixLoc.GetLength(1); k++)
-                                {
-                                    matrixError[l, k] = ram_PosTapa_d[k] - ram_matrixLoc[l, k];
-                                }
-
-                                VectorError[l] = Math.Sqrt(matrixError[l, 0] * matrixError[l, 0] + matrixError[l, 1] * matrixError[l, 1]);
-
-
-                            }
-
-
-                            double Minimo = VectorError[0];
-                            int Flag = 0;
-                            for (int l = 0; l < VectorError.Length; l++)
-                            {
-                                if (Minimo > VectorError[l])
-                                {
-                                    Flag = l;
-                                    Minimo = VectorError[l];
-
-                                }
-                            }
-
-                            /// inserto tapa correspondiente para extraer y loc para sacar
-                            string[] Data = new string[Header.Length];
-                            Data[0] = RecetaR2_Tapas[i][0];  // Tipo
-                            Data[1] = RecetaR2_Tapas[i][1];  // X      Pattern Ancho
-                            Data[2] = RecetaR2_Tapas[i][2];  // Y      Pattern Largo
-                            Data[3] = RecetaR2_Tapas[i][3];  // Z      Pattern Alto
-                            Data[4] = RecetaR2_Tapas[i][4];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2_Tapas[i][5];  // B      Osffet Alto
-                            Data[6] = RecetaR2_Tapas[i][6]; // A      Osffet Alto
-                                                               //Data[7] NumEntidad
-                                                               //Data[8] Segmento
-                            Data[9] = "0"; // se debe retirar
-                            SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
-                            Idex_Insercion_BDDR2++;
-
-                            Data[0] = RecetaR2_Localizadores[Flag][0];  // Tipo
-                            Data[1] = RecetaR2_Localizadores[Flag][1];  // X      Pattern Ancho
-                            Data[2] = RecetaR2_Localizadores[Flag][2];  // Y      Pattern Largo
-                            Data[3] = RecetaR2_Localizadores[Flag][3];  // Z      Pattern Alto
-                            Data[4] = RecetaR2_Localizadores[Flag][4];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2_Localizadores[Flag][5];  // B      Osffet Alto
-                            Data[6] = RecetaR2_Localizadores[Flag][6]; // A      Osffet Alto
-                                                                       //Data[7] NumEntidad
-                                                                       //Data[8] Segmento
-                            Data[9] = "0"; // se debe retirar
-                            SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
-                            Idex_Insercion_BDDR2++;
-
-                        }
-
-                    }
-
-                    if (ExisteTapa == "Si" && ExisteLocalizador == "No")
-                    {
-
-                        for (int Flag = 0; Flag < RecetaR2_Tapas.Count; Flag++)
-                        {
-
-
-                            /// inserto tapa correspondiente para extraer y loc para sacar
-                            string[] Data = new string[Header.Length];
-                            Data[0] = RecetaR2_Tapas[Flag][0];  // Tipo
-                            Data[1] = RecetaR2_Tapas[Flag][1];  // X      Pattern Ancho
-                            Data[2] = RecetaR2_Tapas[Flag][2];  // Y      Pattern Largo
-                            Data[3] = RecetaR2_Tapas[Flag][3];  // Z      Pattern Alto
-                            Data[4] = RecetaR2_Tapas[Flag][4];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2_Tapas[Flag][5];  // B      Osffet Alto
-                            Data[6] = RecetaR2_Tapas[Flag][6]; // A      Osffet Alto
-                                                               //Data[7] NumEntidad
-                                                               //Data[8] Segmento
-                            Data[9] = "0"; // se debe retirar
-                            SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
-                            Idex_Insercion_BDDR2++;
-                        }
-
-                    }
-
-
-                    if (ExisteSprue == "Si")
-                    {
-
-                        for (int Flag = 0; Flag < RecetaR2_Sprues.Count; Flag++)
-                        {
-
-
-                            /// inserto tapa correspondiente para extraer y loc para sacar
-                            string[] Data = new string[Header.Length];
-                            Data[0] = RecetaR2_Sprues[Flag][0];  // Tipo
-                            Data[1] = RecetaR2_Sprues[Flag][1];  // X      Pattern Ancho
-                            Data[2] = RecetaR2_Sprues[Flag][2];  // Y      Pattern Largo
-                            Data[3] = RecetaR2_Sprues[Flag][3];  // Z      Pattern Alto
-                            Data[4] = RecetaR2_Sprues[Flag][4];  // C      Ossfet Ancho
-                            Data[5] = RecetaR2_Sprues[Flag][5];  // B      Osffet Alto
-                            Data[6] = RecetaR2_Sprues[Flag][6]; // A      Osffet Alto
-                                                                //Data[7] NumEntidad
-                                                                //Data[8] Segmento
-                            Data[9] = "0"; // se debe retirar
-                            SQL.InsertarBDD_R2(PATTERN_R2, ListaBusqueda, BaseDatosName, Header, Data, Idex_Insercion_BDDR2, true);
-                            Idex_Insercion_BDDR2++;
-                        }
-
-                    }
 
                     ////////////////////////////////////////////////////////
                     /// Se insertan los elementos en la BDD por Extraccion
                     ////////////////////////////////////////////////////////
 
-                    g_LogTextMain = "Receta R2 -> " + PATTERN_R2+" CREADA";
-
-
-
-
-
-
-
-
-
+                    g_LogTextMain = "Receta R2 -> " + PATTERN_R2 + " CREADA";
 
 
                 }
@@ -687,6 +372,7 @@ namespace SQLapi
                 Thread.Sleep(1000);
             }
         }
+
 
         public void ActiveCore() {
             Thread.Sleep(1000);
