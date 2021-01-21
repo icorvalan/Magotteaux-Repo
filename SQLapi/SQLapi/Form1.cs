@@ -334,13 +334,13 @@ namespace SQLapi
                     {
                         string[] Data = new string[Header.Length];
 
-                        Data[0] = RecetaR2.ElementAt(0).ToString();
-                        Data[1] = RecetaR2.ElementAt(1).ToString();
-                        Data[2] = RecetaR2.ElementAt(2).ToString();
-                        Data[3] = RecetaR2.ElementAt(3).ToString();
-                        Data[4] = RecetaR2.ElementAt(4).ToString();
-                        Data[5] = RecetaR2.ElementAt(5).ToString();
-                        Data[6] = RecetaR2.ElementAt(6).ToString();
+                        Data[0] = RecetaR2[i][2];
+                        Data[1] = RecetaR2[i][5];
+                        Data[2] = RecetaR2[i][6];
+                        Data[3] = RecetaR2[i][7];
+                        Data[4] = RecetaR2[i][8];
+                        Data[5] = RecetaR2[i][9];
+                        Data[6] = RecetaR2[i][10];
 
 
 
