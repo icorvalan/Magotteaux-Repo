@@ -163,6 +163,7 @@ namespace MGTX_arenado
                 DictPosSprue.Clear();
                 puntos.Clear();
                 Limites.Clear();
+                rectasSprue.Clear();
 
 
                 string data = String.Empty;
@@ -251,6 +252,7 @@ namespace MGTX_arenado
                 DictPosSprue.Clear();
                 puntos.Clear();
                 Limites.Clear();
+                rectasSprue.Clear();
 
 
 
@@ -929,6 +931,7 @@ namespace MGTX_arenado
         public void findZone()
         {
             puntos.Clear();
+            rectasSprue.Clear();
             int countLid = DictPosLid.Count();
             int countSprue = DictPosSprue.Count();
 
@@ -1171,65 +1174,43 @@ namespace MGTX_arenado
 
             string nameTable = g_nameFile.Split('.')[0];
 
-            //Limite Inferior de Pattern
-            foreach (var item in Limites)
+            if (SQL.FindSandMixer(nameTable))
             {
-                string[] vector_info = new string[13];
-                vector_info[0] = auxID.ToString();
-                vector_info[1] = "SANDMIXER";
-                vector_info[2] = "12";
-                vector_info[3] = "0";
-                vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[0])).ToString();
-                vector_info[5] = Convert.ToInt32(float.Parse(item.Split(';')[1])).ToString();
-                vector_info[6] = v2;
-                vector_info[7] = "0";
-                double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
-                vector_info[8] = arenaNueva.ToString();
-                double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
-                vector_info[9] = arenaVieja.ToString();
-                vector_info[10] = "0";
-                vector_info[11] = "1";
-                vector_info[12] = "1";
-
-                SQL.Set_Data_To_BD(nameTable, Header, vector_info);
-                auxID++;
-            }
-
-            //Limite superior de Pattern
-            foreach (var item in Limites)
-            {
-                string[] vector_info = new string[13];
-                vector_info[0] = auxID.ToString();
-                vector_info[1] = "SANDMIXER";
-                vector_info[2] = "13";
-                vector_info[3] = "0";
-                vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[2])).ToString();
-                vector_info[5] = Convert.ToInt32(float.Parse(item.Split(';')[3])).ToString();
-                vector_info[6] = v2;
-                vector_info[7] = "0";
-                double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
-                vector_info[8] = arenaNueva.ToString();
-                double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
-                vector_info[9] = arenaVieja.ToString();
-                vector_info[10] = "0";
-                vector_info[11] = "1";
-                vector_info[12] = "1";
-                SQL.Set_Data_To_BD(nameTable, Header, vector_info);
-                auxID++;
-            }
-            //Agregando puntos de LIDs
-            foreach (var item in puntos)
-            {
-                if (!String.IsNullOrEmpty(item.x1) && !String.IsNullOrEmpty(item.y1))
+                //Limite Inferior de Pattern
+                foreach (var item in Limites)
                 {
                     string[] vector_info = new string[13];
                     vector_info[0] = auxID.ToString();
                     vector_info[1] = "SANDMIXER";
-                    vector_info[2] = entidad.ToString();
+                    vector_info[2] = "12";
                     vector_info[3] = "0";
-                    vector_info[4] = Convert.ToInt32(float.Parse(item.x1)).ToString();
-                    vector_info[5] = Convert.ToInt32(float.Parse(item.y1)).ToString();
-                    vector_info[6] = v1;
+                    vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[0])).ToString();
+                    vector_info[5] = Convert.ToInt32(float.Parse(item.Split(';')[1])).ToString();
+                    vector_info[6] = v2;
+                    vector_info[7] = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    vector_info[8] = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    vector_info[9] = arenaVieja.ToString();
+                    vector_info[10] = "0";
+                    vector_info[11] = "1";
+                    vector_info[12] = "1";
+
+                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                    auxID++;
+                }
+
+                //Limite superior de Pattern
+                foreach (var item in Limites)
+                {
+                    string[] vector_info = new string[13];
+                    vector_info[0] = auxID.ToString();
+                    vector_info[1] = "SANDMIXER";
+                    vector_info[2] = "13";
+                    vector_info[3] = "0";
+                    vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[2])).ToString();
+                    vector_info[5] = Convert.ToInt32(float.Parse(item.Split(';')[3])).ToString();
+                    vector_info[6] = v2;
                     vector_info[7] = "0";
                     double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
                     vector_info[8] = arenaNueva.ToString();
@@ -1241,78 +1222,104 @@ namespace MGTX_arenado
                     SQL.Set_Data_To_BD(nameTable, Header, vector_info);
                     auxID++;
                 }
-                if (!String.IsNullOrEmpty(item.x2) && !String.IsNullOrEmpty(item.y2))
+                //Agregando puntos de LIDs
+                foreach (var item in puntos)
                 {
-                    string[] vector_info = new string[13];
-                    vector_info[0] = auxID.ToString();
-                    vector_info[1] = "SANDMIXER";
-                    vector_info[2] = entidad.ToString();
-                    vector_info[3] = "0";
-                    vector_info[4] = Convert.ToInt32(float.Parse(item.x2)).ToString();
-                    vector_info[5] = Convert.ToInt32(float.Parse(item.y2)).ToString();
-                    vector_info[6] = v1;
-                    vector_info[7] = "0";
-                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
-                    vector_info[8] = arenaNueva.ToString();
-                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
-                    vector_info[9] = arenaVieja.ToString();
-                    vector_info[10] = "0";
-                    vector_info[11] = "1";
-                    vector_info[12] = "1";
-                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
-                    auxID++;
-                }
+                    if (!String.IsNullOrEmpty(item.x1) && !String.IsNullOrEmpty(item.y1))
+                    {
+                        string[] vector_info = new string[13];
+                        vector_info[0] = auxID.ToString();
+                        vector_info[1] = "SANDMIXER";
+                        vector_info[2] = entidad.ToString();
+                        vector_info[3] = "0";
+                        vector_info[4] = Convert.ToInt32(float.Parse(item.x1)).ToString();
+                        vector_info[5] = Convert.ToInt32(float.Parse(item.y1)).ToString();
+                        vector_info[6] = v1;
+                        vector_info[7] = "0";
+                        double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                        vector_info[8] = arenaNueva.ToString();
+                        double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                        vector_info[9] = arenaVieja.ToString();
+                        vector_info[10] = "0";
+                        vector_info[11] = "1";
+                        vector_info[12] = "1";
+                        SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                        auxID++;
+                    }
+                    if (!String.IsNullOrEmpty(item.x2) && !String.IsNullOrEmpty(item.y2))
+                    {
+                        string[] vector_info = new string[13];
+                        vector_info[0] = auxID.ToString();
+                        vector_info[1] = "SANDMIXER";
+                        vector_info[2] = entidad.ToString();
+                        vector_info[3] = "0";
+                        vector_info[4] = Convert.ToInt32(float.Parse(item.x2)).ToString();
+                        vector_info[5] = Convert.ToInt32(float.Parse(item.y2)).ToString();
+                        vector_info[6] = v1;
+                        vector_info[7] = "0";
+                        double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                        vector_info[8] = arenaNueva.ToString();
+                        double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                        vector_info[9] = arenaVieja.ToString();
+                        vector_info[10] = "0";
+                        vector_info[11] = "1";
+                        vector_info[12] = "1";
+                        SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                        auxID++;
+                    }
 
-                entidad++;
-            }
-
-            //Agregando rectas sprue
-            idSprue = 0;
-            foreach (var item in rectasSprue)
-            {
-                if (idSprue.Equals(item.id))
-                {
-                    string[] vector_info = new string[13];
-                    vector_info[0] = auxID.ToString();
-                    vector_info[1] = "SANDMIXER";
-                    vector_info[2] = entidad.ToString();
-                    vector_info[3] = "0";
-                    vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
-                    vector_info[5] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
-                    vector_info[6] = v1;
-                    vector_info[7] = "0";
-                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
-                    vector_info[8] = arenaNueva.ToString();
-                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
-                    vector_info[9] = arenaVieja.ToString();
-                    vector_info[10] = "0";
-                    vector_info[11] = "1";
-                    vector_info[12] = "1";
-                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
-                    auxID++;
-                }
-                else
-                {
-                    string[] vector_info = new string[13];
-                    vector_info[0] = auxID.ToString();
-                    vector_info[1] = "SANDMIXER";
-                    vector_info[2] = entidad.ToString();
-                    vector_info[3] = "0";
-                    vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
-                    vector_info[5] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
-                    vector_info[6] = v1;
-                    vector_info[7] = "0";
-                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
-                    vector_info[8] = arenaNueva.ToString();
-                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
-                    vector_info[9] = arenaVieja.ToString();
-                    vector_info[10] = "0";
-                    vector_info[11] = "1";
-                    vector_info[12] = "1";
-                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
-                    auxID++;
                     entidad++;
                 }
+
+                //Agregando rectas sprue
+                idSprue = 0;
+                foreach (var item in rectasSprue)
+                {
+                    if (idSprue.Equals(item.id))
+                    {
+                        string[] vector_info = new string[13];
+                        vector_info[0] = auxID.ToString();
+                        vector_info[1] = "SANDMIXER";
+                        vector_info[2] = entidad.ToString();
+                        vector_info[3] = "0";
+                        vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
+                        vector_info[5] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
+                        vector_info[6] = v1;
+                        vector_info[7] = "0";
+                        double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                        vector_info[8] = arenaNueva.ToString();
+                        double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                        vector_info[9] = arenaVieja.ToString();
+                        vector_info[10] = "0";
+                        vector_info[11] = "1";
+                        vector_info[12] = "1";
+                        SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                        auxID++;
+                    }
+                    else
+                    {
+                        string[] vector_info = new string[13];
+                        vector_info[0] = auxID.ToString();
+                        vector_info[1] = "SANDMIXER";
+                        vector_info[2] = entidad.ToString();
+                        vector_info[3] = "0";
+                        vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
+                        vector_info[5] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
+                        vector_info[6] = v1;
+                        vector_info[7] = "0";
+                        double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                        vector_info[8] = arenaNueva.ToString();
+                        double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                        vector_info[9] = arenaVieja.ToString();
+                        vector_info[10] = "0";
+                        vector_info[11] = "1";
+                        vector_info[12] = "1";
+                        SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                        auxID++;
+                        entidad++;
+                    }
+                }
+
             }
 
 

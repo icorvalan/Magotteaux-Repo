@@ -508,6 +508,56 @@ namespace SQLapi
         }
 
         /// <summary>
+        /// Funcion que Busca el campo SandMixer En la BDD
+        /// </summary>
+        /// <param name="Tabla"></param>
+        /// <returns></returns>
+        public bool FindSandMixer(string Tabla)
+        {
+            try
+            {
+                bool NoSandMixerInBD = false;
+                string result = String.Empty;
+                string query = "SELECT `Cod Core` FROM`" + Tabla + "` WHERE `Cod Core` ='" + "SANDMIXER" + "' ORDER BY ID DESC LIMIT 1";
+                MySqlConnection databaseConnection = new MySqlConnection(connectionString);
+                MySqlCommand commandDatabase = new MySqlCommand(query, databaseConnection);
+                commandDatabase.CommandTimeout = 60;
+
+                databaseConnection.Open();
+                MySqlDataReader myReader = commandDatabase.ExecuteReader();
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+
+                        result = myReader.GetString(0);
+
+
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(result))
+                {
+                    NoSandMixerInBD = false;
+                }
+                else
+                {
+                    NoSandMixerInBD = true;
+                }
+
+                return NoSandMixerInBD;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+
+
+
+
+        }
+
+        /// <summary>
         /// Seteo los valores de la tabla
         /// </summary>
         /// <param name="Tabla">"Tabla de datos"</param>
