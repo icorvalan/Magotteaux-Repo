@@ -55,7 +55,7 @@ namespace DarkDemo
         string path_folder_txt = @"C:\TeachModeBackUp";
         string path_txt = @"C:\TeachModeBackUp\corelist.txt";
         string path_folder_backup_txt = @"C:\TeachModeBackUp\backup.txt";
-
+        string g_rootRecipe = @"C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD";
 
 
 
@@ -2781,6 +2781,34 @@ namespace DarkDemo
             }
 
             return newPos;
+        }
+
+        private void btnSandMixer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(g_rootRecipe);
+
+                foreach (var item in files)
+                {
+                    if (MGTXARENADO.noSandMixerInRecipe(item))
+                    {
+                        MGTXARENADO.ReadExcel2();
+
+                        MGTXARENADO.findZone();
+
+                        MGTXARENADO.GuardadoDeDatosExcelYBase(SQL);
+                    }
+
+                }
+
+                MessageBox.Show("Added Sandmixer in Recipes");
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
 

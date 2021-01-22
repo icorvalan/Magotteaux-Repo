@@ -7,11 +7,14 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using DarkDemo;
+using System.IO;
 
 namespace MGTX_arenado
 {
     class ClassMGTXArenado
     {
+
+        SQLapi.SQL_Bridge SQL;
 
         public Form1 form;
         /// <summary>
@@ -25,6 +28,15 @@ namespace MGTX_arenado
         string Z2Pattern = String.Empty;
         //Lista de valores de y
         List<string> YValues = new List<string>();
+
+
+
+        //Ruta archivo
+        string g_File = String.Empty;
+
+
+        //Nombre de archivo para agregar SandMixer
+        string g_nameFile = String.Empty;
 
         //Masa total modelo Lb
         double g_weight = 1603.8;
@@ -98,6 +110,138 @@ namespace MGTX_arenado
         //Lista que almacena los limites del Tiny Pattern virtual
         List<string> Limites = new List<string>();
 
+        public bool noSandMixerInRecipe(string file)
+        {
+            bool noSandMixer = false;
+            Excel.Application xlApp;
+            Excel.Workbook xlWorkbook;
+            Excel.Worksheet xlWorkSheet;
+            Excel.Range range;
+            g_File = file;
+            FileInfo nameFile = new FileInfo(g_File);
+            g_nameFile = nameFile.Name;
+            xlApp = new Excel.Application();
+            xlWorkbook = xlApp.Workbooks.Open(g_File);
+            xlWorkSheet = xlWorkbook.Sheets[1];
+            range = xlWorkSheet.UsedRange;
+            string data = String.Empty;
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                try
+                {
+                    data = range.Cells[i, 2].Value2.ToString();
+                    if ("SANDMIXER".Equals(data))
+                    {
+                        MessageBox.Show("Exist SandMixer in Recipe:" + g_nameFile, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        noSandMixer = false;
+                        break;
+                    }
+                    else
+                    {
+                        noSandMixer = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    noSandMixer = true;
+                }
+            }
+
+
+            return noSandMixer;
+        }
+
+
+        /// <summary>
+        /// Funcion que abre un archivo y obtiene sus datos
+        /// </summary>
+        public void ReadExcel2()
+        {
+            try
+            {
+                DictPosLid.Clear();
+                DictPosSprue.Clear();
+                puntos.Clear();
+                Limites.Clear();
+
+
+                string data = String.Empty;
+                int contLid = 0;
+                int contSprue = 0;
+                Excel.Application xlApp;
+                Excel.Workbook xlWorkbook;
+                Excel.Worksheet xlWorkSheet;
+                Excel.Range range;
+
+
+
+                xlApp = new Excel.Application();
+                xlWorkbook = xlApp.Workbooks.Open(g_File);
+                xlWorkSheet = xlWorkbook.Sheets[1];
+                range = xlWorkSheet.UsedRange;
+                data = String.Empty;
+
+                for (int i = 1; i <= range.Rows.Count; i++)
+                {
+                    try
+                    {
+                        data = range.Cells[i, 2].Value2.ToString();
+                        //Obtencion datos de PATTERN
+                        if (data.Equals("PATTERN"))
+                        {
+                            X1Pattern = range.Cells[i, 5].Value2.ToString();
+                            X2Pattern = range.Cells[i, 8].Value2.ToString();
+                            Y1Pattern = range.Cells[i, 6].Value2.ToString();
+                            Y2Pattern = range.Cells[i, 9].Value2.ToString();
+                            Z1Pattern = range.Cells[i, 7].Value2.ToString();
+                            Z2Pattern = range.Cells[i, 10].Value2.ToString();
+                        }
+                        //Obtencion datos de SPRUE
+                        if (data.Equals("SPRUE"))
+                        {
+                            PosSprue sprue = new PosSprue();
+                            sprue.nameSprue = range.Cells[i, 2].Value2.ToString();
+                            sprue.posX1 = range.Cells[i, 5].Value2.ToString();
+                            sprue.posY1 = range.Cells[i, 6].Value2.ToString();
+                            sprue.id = range.Cells[i, 3].Value2.ToString();
+                            DictPosSprue.Add(contSprue, sprue);
+                            contSprue += 1;
+                        }
+                        //Obtencion datos de LID
+                        if (data.Contains("LID"))
+                        {
+                            PosLid Lid = new PosLid();
+                            Lid.nameLid = range.Cells[i, 2].Value2.ToString();
+                            Lid.posX1 = range.Cells[i, 5].Value2.ToString();
+                            Lid.posY1 = range.Cells[i, 6].Value2.ToString();
+                            Lid.id = range.Cells[i, 3].Value2.ToString();
+                            DictPosLid.Add(contLid, Lid);
+                            contLid += 1;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+
+
+                SizeOfBox();
+                MakeMatrix();
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// Funcion que obtiene datos desde receta
+        /// </summary>
+        /// <param name="Listdata"></param>
         public void ReadExcel(List<string> Listdata)
         {
 
@@ -106,6 +250,7 @@ namespace MGTX_arenado
                 DictPosLid.Clear();
                 DictPosSprue.Clear();
                 puntos.Clear();
+                Limites.Clear();
 
 
 
@@ -839,14 +984,342 @@ namespace MGTX_arenado
                     string Limitey2 = puntos.Split(';')[3];
 
                     validateIntersecctionBetweenLines(Limitex1, Limitex2, Limitey1, vY1, vX1, vX2, vY2);
-
-
-
-
                 }
 
             }
         }
+
+
+        public void GuardadoDeDatosExcelYBase(SQLapi.SQL_Bridge SQL)
+        {
+
+            Excel.Application xlApp;
+            Excel.Workbook xlWorkbook;
+            Excel.Worksheet xlWorkSheet;
+            Excel.Range range;
+            xlApp = new Excel.Application();
+            xlWorkbook = xlApp.Workbooks.Open(g_File);
+            xlWorkSheet = xlWorkbook.Sheets[1];
+            range = xlWorkSheet.UsedRange;
+
+            string[] Header = { "RamCodificacion", "Cod Core", "Entidad_ID", "Profundidad Agujero", "Ref Pos X", "Ref Pos Y", "Ref Pos Z", "Ref Pos A", "Ref Pos B", "Ref Pos C", "DiametroTomaCore[mm]", "PorcentajeDeteccion Core", "Altura Patron Entidad" };
+            int id = Convert.ToInt32(range.Cells[range.Rows.Count, 1].Value2.ToString()) + 1;
+            int auxID = id;
+            int entidad = 14;
+            string v1 = "99";
+            string v2 = "50";
+            int iterador = range.Rows.Count + 1;
+            //Ingresando datos en Excel
+            //Limite Inferior de Pattern
+            foreach (var item in Limites)
+            {
+
+                range.Cells[iterador, 1].Value = id;
+                range.Cells[iterador, 2].Value = "SANDMIXER";
+                range.Cells[iterador, 3].Value = "12";
+                range.Cells[iterador, 4].Value = "0";
+                range.Cells[iterador, 5].Value = Convert.ToInt32(float.Parse(item.Split(';')[0])).ToString();
+                range.Cells[iterador, 6].Value = Convert.ToInt32(float.Parse(item.Split(';')[1])).ToString();
+                range.Cells[iterador, 7].Value = v2;
+                range.Cells[iterador, 8].Value = "0";
+
+                double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                range.Cells[iterador, 9].Value = arenaNueva.ToString();
+                double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                range.Cells[iterador, 10].Value = arenaVieja.ToString();
+                range.Cells[iterador, 11].Value = "0";
+                range.Cells[iterador, 12].Value = "1";
+                range.Cells[iterador, 13].Value = "1";
+                iterador++;
+                id++;
+
+
+            }
+
+            //Limite superior de Pattern
+            foreach (var item in Limites)
+            {
+
+
+                range.Cells[iterador, 1].Value = id;
+                range.Cells[iterador, 2].Value = "SANDMIXER";
+                range.Cells[iterador, 3].Value = "13";
+                range.Cells[iterador, 4].Value = "0";
+                range.Cells[iterador, 5].Value = Convert.ToInt32(float.Parse(item.Split(';')[2])).ToString();
+                range.Cells[iterador, 6].Value = Convert.ToInt32(float.Parse(item.Split(';')[3])).ToString();
+                range.Cells[iterador, 7].Value = v2;
+                range.Cells[iterador, 8].Value = "0";
+                double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                range.Cells[iterador, 9].Value = arenaNueva.ToString();
+                double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                range.Cells[iterador, 10].Value = arenaVieja.ToString();
+                range.Cells[iterador, 11].Value = "0";
+                range.Cells[iterador, 12].Value = "1";
+                range.Cells[iterador, 13].Value = "1";
+                iterador++;
+                id++;
+            }
+            //Agregando puntos de LIDs
+            foreach (var item in puntos)
+            {
+                if (!String.IsNullOrEmpty(item.x1) && !String.IsNullOrEmpty(item.y1))
+                {
+                    range.Cells[iterador, 1].Value = id;
+                    range.Cells[iterador, 2].Value = "SANDMIXER";
+                    range.Cells[iterador, 3].Value = entidad.ToString();
+                    range.Cells[iterador, 4].Value = "0";
+                    range.Cells[iterador, 5].Value = Convert.ToInt32(float.Parse(item.x1)).ToString();
+                    range.Cells[iterador, 6].Value = Convert.ToInt32(float.Parse(item.y1)).ToString();
+                    range.Cells[iterador, 7].Value = v1;
+                    range.Cells[iterador, 8].Value = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    range.Cells[iterador, 9].Value = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    range.Cells[iterador, 10].Value = arenaVieja.ToString();
+                    range.Cells[iterador, 11].Value = "0";
+                    range.Cells[iterador, 12].Value = "1";
+                    range.Cells[iterador, 13].Value = "1";
+                    iterador++;
+                    id++;
+                }
+                if (!String.IsNullOrEmpty(item.x2) && !String.IsNullOrEmpty(item.y2))
+                {
+
+                    range.Cells[iterador, 1].Value = id;
+                    range.Cells[iterador, 2].Value = "SANDMIXER";
+                    range.Cells[iterador, 3].Value = entidad.ToString();
+                    range.Cells[iterador, 4].Value = "0";
+                    range.Cells[iterador, 5].Value = Convert.ToInt32(float.Parse(item.x2)).ToString();
+                    range.Cells[iterador, 6].Value = Convert.ToInt32(float.Parse(item.y2)).ToString();
+                    range.Cells[iterador, 7].Value = v1;
+                    range.Cells[iterador, 8].Value = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    range.Cells[iterador, 9].Value = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    range.Cells[iterador, 10].Value = arenaVieja.ToString();
+                    range.Cells[iterador, 11].Value = "0";
+                    range.Cells[iterador, 12].Value = "1";
+                    range.Cells[iterador, 13].Value = "1";
+                    iterador++;
+                    id++;
+                }
+
+                entidad++;
+            }
+
+            //Agregando rectas sprue
+            int idSprue = 0;
+            foreach (var item in rectasSprue)
+            {
+                if (idSprue.Equals(item.id))
+                {
+                    range.Cells[iterador, 1].Value = id;
+                    range.Cells[iterador, 2].Value = "SANDMIXER";
+                    range.Cells[iterador, 3].Value = entidad.ToString();
+                    range.Cells[iterador, 4].Value = "0";
+                    range.Cells[iterador, 5].Value = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
+                    range.Cells[iterador, 6].Value = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
+                    range.Cells[iterador, 7].Value = v2;
+                    range.Cells[iterador, 8].Value = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    range.Cells[iterador, 9].Value = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    range.Cells[iterador, 10].Value = arenaVieja.ToString();
+                    range.Cells[iterador, 11].Value = "0";
+                    range.Cells[iterador, 12].Value = "1";
+                    range.Cells[iterador, 13].Value = "1";
+                    iterador++;
+                    id++;
+
+
+
+                }
+                else
+                {
+                    range.Cells[iterador, 1].Value = id;
+                    range.Cells[iterador, 2].Value = "SANDMIXER";
+                    range.Cells[iterador, 3].Value = entidad.ToString();
+                    range.Cells[iterador, 4].Value = "0";
+                    range.Cells[iterador, 5].Value = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
+                    range.Cells[iterador, 6].Value = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
+                    range.Cells[iterador, 7].Value = v2;
+                    range.Cells[iterador, 8].Value = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    range.Cells[iterador, 9].Value = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    range.Cells[iterador, 10].Value = arenaVieja.ToString();
+                    range.Cells[iterador, 11].Value = "0";
+                    range.Cells[iterador, 12].Value = "1";
+                    range.Cells[iterador, 13].Value = "1";
+
+
+                    entidad++;
+                    iterador++;
+                    id++;
+                }
+            }
+
+            xlWorkbook.SaveAs(g_File);
+            xlWorkbook.Close(0);
+            xlApp.Quit();
+
+            //Ingresando datos en BDD
+
+            entidad = 14;
+
+
+
+            string nameTable = g_nameFile.Split('.')[0];
+
+            //Limite Inferior de Pattern
+            foreach (var item in Limites)
+            {
+                string[] vector_info = new string[13];
+                vector_info[0] = auxID.ToString();
+                vector_info[1] = "SANDMIXER";
+                vector_info[2] = "12";
+                vector_info[3] = "0";
+                vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[0])).ToString();
+                vector_info[5] = Convert.ToInt32(float.Parse(item.Split(';')[1])).ToString();
+                vector_info[6] = v2;
+                vector_info[7] = "0";
+                double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                vector_info[8] = arenaNueva.ToString();
+                double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                vector_info[9] = arenaVieja.ToString();
+                vector_info[10] = "0";
+                vector_info[11] = "1";
+                vector_info[12] = "1";
+
+                SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                auxID++;
+            }
+
+            //Limite superior de Pattern
+            foreach (var item in Limites)
+            {
+                string[] vector_info = new string[13];
+                vector_info[0] = auxID.ToString();
+                vector_info[1] = "SANDMIXER";
+                vector_info[2] = "13";
+                vector_info[3] = "0";
+                vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[2])).ToString();
+                vector_info[5] = Convert.ToInt32(float.Parse(item.Split(';')[3])).ToString();
+                vector_info[6] = v2;
+                vector_info[7] = "0";
+                double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                vector_info[8] = arenaNueva.ToString();
+                double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                vector_info[9] = arenaVieja.ToString();
+                vector_info[10] = "0";
+                vector_info[11] = "1";
+                vector_info[12] = "1";
+                SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                auxID++;
+            }
+            //Agregando puntos de LIDs
+            foreach (var item in puntos)
+            {
+                if (!String.IsNullOrEmpty(item.x1) && !String.IsNullOrEmpty(item.y1))
+                {
+                    string[] vector_info = new string[13];
+                    vector_info[0] = auxID.ToString();
+                    vector_info[1] = "SANDMIXER";
+                    vector_info[2] = entidad.ToString();
+                    vector_info[3] = "0";
+                    vector_info[4] = Convert.ToInt32(float.Parse(item.x1)).ToString();
+                    vector_info[5] = Convert.ToInt32(float.Parse(item.y1)).ToString();
+                    vector_info[6] = v1;
+                    vector_info[7] = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    vector_info[8] = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    vector_info[9] = arenaVieja.ToString();
+                    vector_info[10] = "0";
+                    vector_info[11] = "1";
+                    vector_info[12] = "1";
+                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                    auxID++;
+                }
+                if (!String.IsNullOrEmpty(item.x2) && !String.IsNullOrEmpty(item.y2))
+                {
+                    string[] vector_info = new string[13];
+                    vector_info[0] = auxID.ToString();
+                    vector_info[1] = "SANDMIXER";
+                    vector_info[2] = entidad.ToString();
+                    vector_info[3] = "0";
+                    vector_info[4] = Convert.ToInt32(float.Parse(item.x2)).ToString();
+                    vector_info[5] = Convert.ToInt32(float.Parse(item.y2)).ToString();
+                    vector_info[6] = v1;
+                    vector_info[7] = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    vector_info[8] = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    vector_info[9] = arenaVieja.ToString();
+                    vector_info[10] = "0";
+                    vector_info[11] = "1";
+                    vector_info[12] = "1";
+                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                    auxID++;
+                }
+
+                entidad++;
+            }
+
+            //Agregando rectas sprue
+            idSprue = 0;
+            foreach (var item in rectasSprue)
+            {
+                if (idSprue.Equals(item.id))
+                {
+                    string[] vector_info = new string[13];
+                    vector_info[0] = auxID.ToString();
+                    vector_info[1] = "SANDMIXER";
+                    vector_info[2] = entidad.ToString();
+                    vector_info[3] = "0";
+                    vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
+                    vector_info[5] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
+                    vector_info[6] = v1;
+                    vector_info[7] = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    vector_info[8] = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    vector_info[9] = arenaVieja.ToString();
+                    vector_info[10] = "0";
+                    vector_info[11] = "1";
+                    vector_info[12] = "1";
+                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                    auxID++;
+                }
+                else
+                {
+                    string[] vector_info = new string[13];
+                    vector_info[0] = auxID.ToString();
+                    vector_info[1] = "SANDMIXER";
+                    vector_info[2] = entidad.ToString();
+                    vector_info[3] = "0";
+                    vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
+                    vector_info[5] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[1])).ToString();
+                    vector_info[6] = v1;
+                    vector_info[7] = "0";
+                    double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
+                    vector_info[8] = arenaNueva.ToString();
+                    double arenaVieja = Math.Round((CalculoTiempoPermanencia() * 0.7));
+                    vector_info[9] = arenaVieja.ToString();
+                    vector_info[10] = "0";
+                    vector_info[11] = "1";
+                    vector_info[12] = "1";
+                    SQL.Set_Data_To_BD(nameTable, Header, vector_info);
+                    auxID++;
+                    entidad++;
+                }
+            }
+
+
+
+
+        }
+
 
 
         /// <summary>
@@ -865,7 +1338,7 @@ namespace MGTX_arenado
             foreach (var item in Limites)
             {
                 string[] vector_info = new string[13];
-                vector_info[1] = "SANDMIXERP";
+                vector_info[1] = "SANDMIXER";
                 vector_info[2] = "12";
                 vector_info[3] = "0";
                 vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[0])).ToString();
@@ -886,7 +1359,7 @@ namespace MGTX_arenado
             foreach (var item in Limites)
             {
                 string[] vector_info = new string[13];
-                vector_info[1] = "SANDMIXERP";
+                vector_info[1] = "SANDMIXER";
                 vector_info[2] = "13";
                 vector_info[3] = "0";
                 vector_info[4] = Convert.ToInt32(float.Parse(item.Split(';')[2])).ToString();
@@ -908,7 +1381,7 @@ namespace MGTX_arenado
                 if (!String.IsNullOrEmpty(item.x1) && !String.IsNullOrEmpty(item.y1))
                 {
                     string[] vector_info = new string[13];
-                    vector_info[1] = "SANDMIXERP";
+                    vector_info[1] = "SANDMIXER";
                     vector_info[2] = entidad.ToString();
                     vector_info[3] = "0";
                     vector_info[4] = Convert.ToInt32(float.Parse(item.x1)).ToString();
@@ -927,11 +1400,11 @@ namespace MGTX_arenado
                 if (!String.IsNullOrEmpty(item.x2) && !String.IsNullOrEmpty(item.y2))
                 {
                     string[] vector_info = new string[13];
-                    vector_info[1] = "SANDMIXERP";
+                    vector_info[1] = "SANDMIXER";
                     vector_info[2] = entidad.ToString();
                     vector_info[3] = "0";
-                    vector_info[4] = Convert.ToInt32(float.Parse(item.x1)).ToString();
-                    vector_info[5] = Convert.ToInt32(float.Parse(item.y1)).ToString();
+                    vector_info[4] = Convert.ToInt32(float.Parse(item.x2)).ToString();
+                    vector_info[5] = Convert.ToInt32(float.Parse(item.y2)).ToString();
                     vector_info[6] = v2;
                     vector_info[7] = "0";
                     double arenaNueva = Math.Round((CalculoTiempoPermanencia() * 0.3));
@@ -946,13 +1419,15 @@ namespace MGTX_arenado
 
                 entidad++;
             }
+
+            //Agregando rectas sprue
             int idSprue = 0;
             foreach (var item in rectasSprue)
             {
                 if (idSprue.Equals(item.id))
                 {
                     string[] vector_info = new string[13];
-                    vector_info[1] = "SANDMIXERP";
+                    vector_info[1] = "SANDMIXER";
                     vector_info[2] = entidad.ToString();
                     vector_info[3] = "0";
                     vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
@@ -971,7 +1446,7 @@ namespace MGTX_arenado
                 else
                 {
                     string[] vector_info = new string[13];
-                    vector_info[1] = "SANDMIXERP";
+                    vector_info[1] = "SANDMIXER";
                     vector_info[2] = entidad.ToString();
                     vector_info[3] = "0";
                     vector_info[4] = Convert.ToInt32(float.Parse(item.punto1.Split(';')[0])).ToString();
@@ -1029,9 +1504,6 @@ namespace MGTX_arenado
             return TiempoDePermanencia;
 
         }
-
-
-
 
     }
 }

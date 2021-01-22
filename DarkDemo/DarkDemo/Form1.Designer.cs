@@ -185,6 +185,8 @@
             this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.btnSandMixer = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -227,6 +229,7 @@
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox16.SuspendLayout();
+            this.groupBox18.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -1995,12 +1998,35 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // groupBox18
+            // 
+            this.groupBox18.Controls.Add(this.btnSandMixer);
+            this.groupBox18.ForeColor = System.Drawing.Color.White;
+            this.groupBox18.Location = new System.Drawing.Point(799, 330);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(214, 96);
+            this.groupBox18.TabIndex = 27;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "Add SandMixer";
+            // 
+            // btnSandMixer
+            // 
+            this.btnSandMixer.ForeColor = System.Drawing.Color.Black;
+            this.btnSandMixer.Location = new System.Drawing.Point(19, 37);
+            this.btnSandMixer.Name = "btnSandMixer";
+            this.btnSandMixer.Size = new System.Drawing.Size(176, 30);
+            this.btnSandMixer.TabIndex = 9;
+            this.btnSandMixer.Text = "Add SandMixer";
+            this.btnSandMixer.UseVisualStyleBackColor = true;
+            this.btnSandMixer.Click += new System.EventHandler(this.btnSandMixer_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(1284, 701);
+            this.Controls.Add(this.groupBox18);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.simpleLED1);
@@ -2080,6 +2106,7 @@
             this.groupBox14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox16.ResumeLayout(false);
+            this.groupBox18.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2242,6 +2269,8 @@
         private System.Windows.Forms.ComboBox comboPosSprue;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.NumericUpDown bx_num_index_ID;
+        private System.Windows.Forms.GroupBox groupBox18;
+        private System.Windows.Forms.Button btnSandMixer;
     }
 }
 
