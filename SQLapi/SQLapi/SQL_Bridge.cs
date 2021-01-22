@@ -3931,6 +3931,14 @@ namespace SQLapi
 
 
             }
+            else if (Data[0].Contains(ListaBusqueda[5]))
+            {
+
+                
+                Data[8] = "0";
+
+
+            }
 
 
             if (Data[7] == null || Data[8] == null)
@@ -3942,10 +3950,8 @@ namespace SQLapi
 
             if (GrabarDatoenBDD)
             {
-                for (int j = 0; j < Header.Length; j++)
-                {
-                    Set_Update_BD(BaseDatosName, Header[j], Data[j], i + 1);
-                }
+                Set_Data_To_BD(BaseDatosName, Header, Data);
+               
 
             }
 

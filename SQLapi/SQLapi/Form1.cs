@@ -341,6 +341,10 @@ namespace SQLapi
                         Data[4] = RecetaR2[i][8];
                         Data[5] = RecetaR2[i][9];
                         Data[6] = RecetaR2[i][10];
+                        //Entidad
+                        Data[7] = Receta[i][3];
+                        //Dato random
+                        Data[8] = Receta[i][11];
 
 
 
