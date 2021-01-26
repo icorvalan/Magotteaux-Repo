@@ -57,7 +57,7 @@ namespace DarkDemo
         string path_folder_backup_txt = @"C:\TeachModeBackUp\backup.txt";
         string g_rootRecipe = @"C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD";
 
-
+        string g_nameFileSandMixer = String.Empty;
 
         int g_AlturaForm = 775;
         public Form1()
@@ -2783,6 +2783,55 @@ namespace DarkDemo
             return newPos;
         }
 
+        /// <summary>
+        /// Funcion que genera un log de errores segun el archivo que se intenta adherir un sandmixer
+        /// </summary>
+        /// <param name="nameFile"></param>
+        public void ErroresSandmixer(string nameFile)
+        {
+            StreamWriter fichero;
+
+            string directory = @"C:\ErrorSandMixerVisionMgtx";
+            string log = "ErrorsLogSandMixer.txt";
+            string path = System.IO.Path.Combine(directory, log);
+            if (!File.Exists(path))
+            {
+                Directory.CreateDirectory(directory);
+
+                if (!File.Exists(path))
+                {
+                    fichero = File.CreateText(path);
+
+                    fichero.Close();
+
+                    fichero = File.AppendText(path);
+
+                    fichero.WriteLine(DateTime.Now + ":" + nameFile + '\n');
+                    fichero.Close();
+                }
+            }
+            else
+            {
+                if (!File.Exists(path))
+                {
+                    fichero = File.CreateText(path);
+                    fichero = File.AppendText(path);
+
+                    fichero.WriteLine(DateTime.Now + ":" + nameFile + '\n');
+                    fichero.Close();
+                }
+                else
+                {
+                    fichero = File.AppendText(path);
+
+                    fichero.WriteLine(DateTime.Now + ":" + nameFile + '\n');
+
+                    fichero.Close();
+                }
+            }
+        }
+
+
         private void btnSandMixer_Click(object sender, EventArgs e)
         {
             try
@@ -2791,18 +2840,50 @@ namespace DarkDemo
 
                 foreach (var item in files)
                 {
-                    if (MGTXARENADO.noSandMixerInRecipe(item))
+                    try
                     {
-                        MGTXARENADO.ReadExcel2();
+                        FileInfo nameFile = new FileInfo(item);
 
-                        MGTXARENADO.findZone();
+                        string name = nameFile.Name.Split('.')[0];
+                        g_nameFileSandMixer = name;
+                        if (name.Contains("Cope") || name.Contains("Drag"))
+                        {
 
-                        MGTXARENADO.GuardadoDeDatosExcelYBase(SQL);
+
+
+                            if (MGTXARENADO.noSandMixerInRecipe(item))
+                            {
+
+
+                                MGTXARENADO.ReadExcel2();
+
+                                if (!MGTXARENADO.validatePointInPattern())
+                                {
+                                    MGTXARENADO.findZone();
+
+                                    MGTXARENADO.GuardadoDeDatosExcelYBase(SQL);
+                                }
+                                else
+                                {
+                                    ErroresSandmixer(g_nameFileSandMixer);
+                                }
+
+                            }
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        ErroresSandmixer(g_nameFileSandMixer);
+                    }
+
+
+
+
 
                 }
 
                 MessageBox.Show("Added Sandmixer in Recipes");
+
 
             }
             catch (Exception ex)
@@ -2925,10 +3006,19 @@ namespace DarkDemo
                             data = ExcelClass.inspectExcel();
                             //Lectura de datos y creacion de matriz de rangos para identificar cada elemento
                             MGTXARENADO.ReadExcel(data);
-                            //Creacion de cuadro delimietador para encerrar el elemento encontrado
-                            MGTXARENADO.findZone();
-                            //Guardado de camino de robot
-                            MGTXARENADO.GuardadoDeDatosExcel(ExcelClass);
+                            //Validacion de que los puntos ingresados sirvan para generar puntos de SandMixer
+                            if (!MGTXARENADO.validatePointInPattern())
+                            {
+                                //Creacion de cuadro delimietador para encerrar el elemento encontrado
+                                MGTXARENADO.findZone();
+
+                                //Guardado de camino de robot
+                                MGTXARENADO.GuardadoDeDatosExcel(ExcelClass);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Problems in data in RECIPE NO SANDMIXER ADDED", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
 
                         Show_loadingForm();

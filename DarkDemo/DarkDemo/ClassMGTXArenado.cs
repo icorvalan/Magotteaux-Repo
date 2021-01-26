@@ -110,6 +110,126 @@ namespace MGTX_arenado
         //Lista que almacena los limites del Tiny Pattern virtual
         List<string> Limites = new List<string>();
 
+
+        /// <summary>
+        /// Funcion que valida Objetos dentro del Pattern
+        /// </summary>
+        /// <returns></returns>
+        public bool validatePointInPattern()
+        {
+            //Elemento para retornar si el pattern esta correctop o no
+            bool ErrorinPattern = false;
+
+            //Variables obtenidas con dimensiones del pattern
+            float px1 = float.Parse(X1Pattern);
+            float py1 = float.Parse(Y1Pattern);
+            float px2 = float.Parse(X2Pattern);
+            float py2 = float.Parse(Y2Pattern);
+            //Variables asignadas para ordenar coordenadas del pattern de esquina inferior a esquina superior
+            float auxX1 = 0;
+            float auxY1 = 0;
+            float auxX2 = 0;
+            float auxY2 = 0;
+            //Evaluando que las coordenadas obtenidas no tengan componentes en x e y iguales
+            if (px1.Equals(px2))
+            {
+                return ErrorinPattern = true;
+            }
+            if (py1.Equals(py2))
+            {
+                return ErrorinPattern = true;
+            }
+
+            if (!px1.Equals(px2) && !py1.Equals(py2))
+            {
+
+                //Ordenando posiciones del extremo inferior al mayor
+                if (px1 < px2)
+                {
+                    auxX1 = px1;
+                    auxY1 = py1;
+                    auxX2 = px2;
+                    auxY2 = py2;
+
+                }
+                else
+                {
+                    auxX1 = px2;
+                    auxY1 = py2;
+                    auxX2 = px1;
+                    auxY2 = py1;
+                }
+
+                //Evaluando si las coordenadas del objeto se encuentran contenidas en el pattern
+
+                //Lids obtenidos en receta
+
+                if (DictPosLid.Count != 0)
+                {
+                    foreach (var item in DictPosLid.Keys)
+                    {
+                        PosLid x1Lid = DictPosLid[item];
+                        float x1 = float.Parse(x1Lid.posX1);
+                        float y1 = float.Parse(x1Lid.posY1);
+                        string name = x1Lid.nameLid;
+                        double diameter = DimensionOfObject(name);
+                        float ratio = Convert.ToSingle(diameter / 2);
+                        float r = (float)Math.Pow(ratio, 2);
+                        //Evaluando si el centro del objeto se encuentra dentro del Pattern
+                        if (!(auxX1 < x1 && x1 < auxX2) && !(auxY2 < y1 && y1 < auxY1))
+                        {
+                            return ErrorinPattern = true;
+                        }
+                        if (ValidatePoints(auxY1, x1, y1, r))
+                        {
+                            ErrorinPattern = true;
+                        }
+                        if (ValidatePoints(auxY2, x1, y1, r))
+                        {
+                            ErrorinPattern = true;
+                        }
+                        if (ValidatePoints(auxX1, x1, y1, r))
+                        {
+                            ErrorinPattern = true;
+                        }
+                        if (ValidatePoints(auxX2, x1, y1, r))
+                        {
+                            ErrorinPattern = true;
+                        }
+
+
+                    }
+
+                }
+
+                //Sprue obtenidos en receta
+                if (DictPosSprue.Count != 0)
+                {
+                    foreach (var item in DictPosSprue.Keys)
+                    {
+                        PosSprue pointSprue = DictPosSprue[item];
+                        float x1 = float.Parse(pointSprue.posX1);
+                        float y1 = float.Parse(pointSprue.posY1);
+
+                        //Evaluando si el centro del objeto se encuentra dentro del Pattern
+                        if (!(auxX1 < x1 && x1 < auxX2) || !(auxY2 < y1 && y1 < auxY1))
+                        {
+                            return ErrorinPattern = true;
+                        }
+                    }
+                }
+            }
+
+            return ErrorinPattern;
+
+        }
+
+
+        /// <summary>
+        /// Funcion que obtiene 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public bool noSandMixerInRecipe(string file)
         {
             bool noSandMixer = false;
@@ -132,7 +252,7 @@ namespace MGTX_arenado
                     data = range.Cells[i, 2].Value2.ToString();
                     if ("SANDMIXER".Equals(data))
                     {
-                        MessageBox.Show("Exist SandMixer in Recipe:" + g_nameFile, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                         noSandMixer = false;
                         break;
                     }
@@ -147,6 +267,10 @@ namespace MGTX_arenado
                 }
             }
 
+            xlWorkbook.Close(true);
+            xlApp.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+            CloseExcel();
 
             return noSandMixer;
         }
@@ -162,8 +286,8 @@ namespace MGTX_arenado
                 DictPosLid.Clear();
                 DictPosSprue.Clear();
                 puntos.Clear();
-                Limites.Clear();
                 rectasSprue.Clear();
+                Limites.Clear();
 
 
                 string data = String.Empty;
@@ -229,8 +353,13 @@ namespace MGTX_arenado
 
                 SizeOfBox();
                 MakeMatrix();
+
+                xlWorkbook.Close(true);
+                xlApp.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+                CloseExcel();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
@@ -325,7 +454,7 @@ namespace MGTX_arenado
 
             foreach (Process item in Process.GetProcesses())
             {
-                if (item.ProcessName.Equals("EXCEL.exe"))
+                if (item.ProcessName.Contains("EXCEL"))
                 {
                     item.Kill();
 
@@ -931,7 +1060,6 @@ namespace MGTX_arenado
         public void findZone()
         {
             puntos.Clear();
-            rectasSprue.Clear();
             int countLid = DictPosLid.Count();
             int countSprue = DictPosSprue.Count();
 
@@ -1004,14 +1132,31 @@ namespace MGTX_arenado
             xlWorkbook = xlApp.Workbooks.Open(g_File);
             xlWorkSheet = xlWorkbook.Sheets[1];
             range = xlWorkSheet.UsedRange;
+            int id = 0;
+            //Filas con errores
+            List<int> errorRows = new List<int>();
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                try
+                {
+                    //Se obtiene el ultimo indice correcto creado en excel
+                    id = Convert.ToInt32(range.Cells[i, 1].Value2.ToString());
+                }
+                catch (Exception)
+                {
 
+                }
+
+            }
+
+            //Cabecera EXCEL
             string[] Header = { "RamCodificacion", "Cod Core", "Entidad_ID", "Profundidad Agujero", "Ref Pos X", "Ref Pos Y", "Ref Pos Z", "Ref Pos A", "Ref Pos B", "Ref Pos C", "DiametroTomaCore[mm]", "PorcentajeDeteccion Core", "Altura Patron Entidad" };
-            int id = Convert.ToInt32(range.Cells[range.Rows.Count, 1].Value2.ToString()) + 1;
+            id = id + 1;
             int auxID = id;
             int entidad = 14;
             string v1 = "99";
             string v2 = "50";
-            int iterador = range.Rows.Count + 1;
+            int iterador = id + 1;
             //Ingresando datos en Excel
             //Limite Inferior de Pattern
             foreach (var item in Limites)
@@ -1163,10 +1308,15 @@ namespace MGTX_arenado
             }
 
             xlWorkbook.SaveAs(g_File);
-            xlWorkbook.Close(0);
+            xlWorkbook.Close(true);
             xlApp.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+            CloseExcel();
 
             //Ingresando datos en BDD
+
+
+
 
             entidad = 14;
 
@@ -1321,6 +1471,8 @@ namespace MGTX_arenado
                 }
 
             }
+
+
 
 
 
