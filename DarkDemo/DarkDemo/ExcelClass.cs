@@ -919,8 +919,8 @@ namespace DarkDemo
             try
             {
                 //    Mi_Excel.DisplayAlerts = false;
-                //g_PathUltimoExcel = @"C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\" + Nombre + ".xlsx"; 
-                g_PathUltimoExcel = @"C:\Vision MGTX\" + Nombre + ".xlsx";
+                g_PathUltimoExcel = @"C:\Users\Vision MGTX\Dropbox\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\" + Nombre + ".xlsx";
+                //g_PathUltimoExcel = @"C:\Vision MGTX\" + Nombre + ".xlsx";
                 //      g_PathUltimoExcel = @"C:\Users\Usuario\Dropbox (MIRS)\1.-Servidor Desarrollo Software\7.-Magotteaux\1.- BD\" + Nombre + ".xlsx";
 
                 if (File.Exists(g_PathUltimoExcel))

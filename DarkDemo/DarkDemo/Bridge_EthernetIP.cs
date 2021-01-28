@@ -44,8 +44,8 @@ namespace SerialBridge
         {
             try
             {
-                //EthernetIP_plc.Timeout = 100;
-                return null; //EthernetIP_plc.Read(variable);
+                EthernetIP_plc.Timeout = 100;
+                return EthernetIP_plc.Read(variable);
             }
             catch (Exception)
             {

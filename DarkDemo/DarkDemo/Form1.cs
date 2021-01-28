@@ -216,8 +216,8 @@ namespace DarkDemo
             //// Ruta donde estan los modelos 3d´s
             ///////////////////////////////////////////////////////////////////
 
-            //string Path = @"D:\AI\Vision Artificial\4.-MAGOTTEAUX\SFM_CORES";
-            string Path = @"C:\SFM_Cores";
+            string Path = @"D:\AI\Vision Artificial\4.-MAGOTTEAUX\SFM_CORES";
+            //string Path = @"C:\SFM_Cores";
             g_Path_Files = Path;
             string[] ficheros = Directory.GetDirectories(Path);
             ///////////////////////////////////////////////////////////////////

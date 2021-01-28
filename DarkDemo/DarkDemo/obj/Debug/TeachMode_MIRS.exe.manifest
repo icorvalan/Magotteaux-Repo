@@ -151,6 +151,18 @@
     </dependentAssembly>
   </dependency>
   <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="OpcComRcw.dll" size="90624">
+      <assemblyIdentity name="OpcComRcw" version="2.0.105.1" publicKeyToken="9A40E993CBFACE53" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>MxpwUhDZgXFlIIfApLSe0bZRib4RCYqo2kqfWIIrCjk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="OpcNetApi.dll" size="204800">
       <assemblyIdentity name="OpcNetApi" version="2.1.105.1" publicKeyToken="9A40E993CBFACE53" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -187,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TeachMode_MIRS.exe" size="359936">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TeachMode_MIRS.exe" size="360960">
       <assemblyIdentity name="TeachMode_MIRS" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YYzB4tAL38t6fmupS3sYB+LMxO5tmw5n+beDEtO25Gc=</dsig:DigestValue>
+        <dsig:DigestValue>xNc3IBL5nYu39Kp+S+tg83ULuh0Z+blaDaR87bVQZA8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
