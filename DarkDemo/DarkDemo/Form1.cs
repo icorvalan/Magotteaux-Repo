@@ -684,6 +684,8 @@ namespace DarkDemo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.progressBarSandMixer.Visible = false;
+            this.label31.Visible = false;
             MGTXARENADO.form = this;
             try
             {
@@ -2836,8 +2838,18 @@ namespace DarkDemo
         {
             try
             {
-                string[] files = Directory.GetFiles(g_rootRecipe);
+                this.progressBarSandMixer.Minimum = 0;
 
+                this.progressBarSandMixer.Visible = true;
+                this.label31.Text = "Adding SandMixer To Recipe:";
+                this.label31.Visible = true;
+                string[] files = Directory.GetFiles(g_rootRecipe);
+                this.progressBarSandMixer.Maximum = files.Count();
+                string errorFiles = @"C:\ErrorSandMixerVisionMgtx\ErrorsLogSandMixer.txt";
+                if (File.Exists(errorFiles))
+                {
+                    File.Delete(errorFiles);
+                }
                 foreach (var item in files)
                 {
                     try
@@ -2846,6 +2858,7 @@ namespace DarkDemo
 
                         string name = nameFile.Name.Split('.')[0];
                         g_nameFileSandMixer = name;
+                        this.label31.Text = "Adding SandMixer To Recipe:" + name;
                         if (name.Contains("Cope") || name.Contains("Drag"))
                         {
 
@@ -2876,20 +2889,40 @@ namespace DarkDemo
                         ErroresSandmixer(g_nameFileSandMixer);
                     }
 
-
-
+                    this.progressBarSandMixer.Increment(1);
 
 
                 }
 
-                MessageBox.Show("Added Sandmixer in Recipes");
+
+                if (File.Exists(errorFiles))
+                {
+                    string[] lines = File.ReadAllLines(errorFiles);
+                    if (lines.Count() != 0)
+                    {
+                        MessageBox.Show("SandMixer Added with ERRORS --> receive recipes in ErrorsLogSandMixer.txt", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Added Sandmixer in Recipes", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Added Sandmixer in Recipes", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                this.progressBarSandMixer.Visible = false;
+                this.label31.Visible = false;
 
 
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("ERROR" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
 

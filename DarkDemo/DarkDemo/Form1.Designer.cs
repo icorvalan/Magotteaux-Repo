@@ -187,6 +187,8 @@
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.btnSandMixer = new System.Windows.Forms.Button();
+            this.label31 = new System.Windows.Forms.Label();
+            this.progressBarSandMixer = new System.Windows.Forms.ProgressBar();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -2020,13 +2022,28 @@
             this.btnSandMixer.UseVisualStyleBackColor = true;
             this.btnSandMixer.Click += new System.EventHandler(this.btnSandMixer_Click);
             // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(799, 429);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(83, 23);
+            this.label31.TabIndex = 30;
+            this.label31.Text = "label31";
+            // 
+            // progressBarSandMixer
+            // 
+            this.progressBarSandMixer.Location = new System.Drawing.Point(799, 454);
+            this.progressBarSandMixer.Name = "progressBarSandMixer";
+            this.progressBarSandMixer.Size = new System.Drawing.Size(214, 35);
+            this.progressBarSandMixer.TabIndex = 29;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(1284, 701);
-            this.Controls.Add(this.groupBox18);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.simpleLED1);
@@ -2040,6 +2057,9 @@
             this.Controls.Add(this.button10);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox16);
+            this.Controls.Add(this.groupBox18);
+            this.Controls.Add(this.progressBarSandMixer);
+            this.Controls.Add(this.label31);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(120)))), ((int)(((byte)(138)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -2271,6 +2291,8 @@
         private System.Windows.Forms.NumericUpDown bx_num_index_ID;
         private System.Windows.Forms.GroupBox groupBox18;
         private System.Windows.Forms.Button btnSandMixer;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.ProgressBar progressBarSandMixer;
     }
 }
 

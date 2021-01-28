@@ -160,6 +160,28 @@ namespace MGTX_arenado
                     auxY2 = py1;
                 }
 
+                //Evaluando si las coordenadas del pattern contienen el (0,0)
+                if (!(auxX1 < 0 && 0 < auxX2))
+                {
+                    return ErrorinPattern = true;
+                }
+                //Evaluando si coordenadas y contienen la componenete 0
+                if (auxY2 < auxY1)
+                {
+                    if (!(auxY2 < 0 && 0 < auxY1))
+                    {
+                        return ErrorinPattern = true;
+                    }
+
+                }
+                else
+                {
+                    if (!(auxY1 < 0 && 0 < auxY2))
+                    {
+                        return ErrorinPattern = true;
+                    }
+                }
+
                 //Evaluando si las coordenadas del objeto se encuentran contenidas en el pattern
 
                 //Lids obtenidos en receta
